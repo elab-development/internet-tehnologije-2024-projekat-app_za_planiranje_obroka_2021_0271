@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Korisnik-Preferencije>
  */
-class KorisnikPreferencijeFactory extends Factory
+class Korisnik_PreferencijeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,8 @@ class KorisnikPreferencijeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'korisnik_id' => \App\Models\Korisnik::factory(),
+            'preferencija_id' => \App\Models\Preferencije::factory()
         ];
     }
 }

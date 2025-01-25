@@ -20,7 +20,7 @@ return new class extends Migration
 
         });
 
-        DB::statement("ALTER TABLE korisnici ADD CONSTRAINT check_email_format CHECK (email REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.com$')");
+        DB::statement("ALTER TABLE korisnici ADD CONSTRAINT check_email_format CHECK (email REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')");
         DB::statement("ALTER TABLE korisnici ADD CONSTRAINT check_sifra_length CHECK (length(sifra) >= 10 AND length(sifra) <= 40)");
     }
 

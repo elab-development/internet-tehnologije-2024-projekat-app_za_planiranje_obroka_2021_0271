@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('namirnice', function (Blueprint $table) {
-            $table->renameColumn('kalorije', 'broj_kalorija'); 
+            $table->renameColumn('kalorije', 'broj_kalorija');
         });
     }
 

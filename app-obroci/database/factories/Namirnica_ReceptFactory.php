@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Namirnica-Recept>
  */
-class NamirnicaReceptFactory extends Factory
+class Namirnica_ReceptFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,9 @@ class NamirnicaReceptFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'recept_id' => \App\Models\Recept::factory(),
+            'namirnica_id' => \App\Models\Namirnica::factory(),
+            'kolicina' => $this->faker->numberBetween(1, 500),
         ];
     }
 }

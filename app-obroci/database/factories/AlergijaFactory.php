@@ -17,7 +17,8 @@ class AlergijaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'korisnik_id' => \App\Models\Korisnik::factory(),
+            'namirnica_id' => \App\Models\Namirnica::factory(),
         ];
     }
 }

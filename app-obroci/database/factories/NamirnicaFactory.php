@@ -17,7 +17,13 @@ class NamirnicaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'naziv' => $this->faker->word(),
+            'broj_kalorija' => $this->faker->numberBetween(50, 800),
+            'proteini' => $this->faker->numberBetween(1, 50),
+            'masti' => $this->faker->numberBetween(1, 50),
+            'ugljeni_hidrati' => $this->faker->numberBetween(1, 100),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

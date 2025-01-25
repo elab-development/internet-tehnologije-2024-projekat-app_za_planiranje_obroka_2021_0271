@@ -17,7 +17,15 @@ class ReceptFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'naziv' => $this->faker->word(),
+            'opis' => $this->faker->paragraph(),
+            'veganski' => $this->faker->boolean(),
+            'vegetarijanski' => $this->faker->boolean(),
+            'bez_laktoze' => $this->faker->boolean(),
+            'bez_glutena' => $this->faker->boolean(),
+            'posno' => $this->faker->boolean(),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

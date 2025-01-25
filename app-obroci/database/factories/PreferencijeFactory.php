@@ -17,7 +17,7 @@ class PreferencijeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'naziv' => $this->faker->randomElement(['veganski', 'vegetarijanski', 'bez_laktoze', 'bez_glutena', 'posno'])
         ];
     }
 }
