@@ -16,4 +16,14 @@ class Alergija extends Model
         'korisnik_id',
         'namirnica_id'
     ];
+
+    public function korisnik()
+    {
+        return $this->belongsTo(Korisnik::class, 'korisnik_id');
+    }
+
+    public function namirnica()
+    {
+        return $this->belongsTo(Namirnica::class, 'namirnica_id');
+    }
 }

@@ -16,4 +16,14 @@ class Korisnik_Preferencije extends Model
         'korisnik_id',
         'preferencija_id'
     ];
+
+    public function korisnik()
+    {
+        return $this->belongsTo(Korisnik::class, 'korisnik_id');
+    }
+
+    public function preferencija()
+    {
+        return $this->belongsTo(Preferencije::class, 'preferencija_id');
+    }
 }
