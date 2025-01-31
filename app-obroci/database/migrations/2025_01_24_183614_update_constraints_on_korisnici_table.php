@@ -15,13 +15,11 @@ return new class extends Migration
         Schema::table('korisnici', function (Blueprint $table) {
             $table->string('ime', 50)->change();
             $table->string('prezime', 50)->change(); 
-            $table->string('korisnicko_ime',50)->change();
-            $table->string('sifra', 40)->change();
-
+            $table->string('korisnicko_ime', 50)->change();
         });
 
         DB::statement("ALTER TABLE korisnici ADD CONSTRAINT check_email_format CHECK (email REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')");
-        DB::statement("ALTER TABLE korisnici ADD CONSTRAINT check_sifra_length CHECK (length(sifra) >= 10 AND length(sifra) <= 40)");
+        DB::statement("ALTER TABLE korisnici ADD CONSTRAINT check_sifra_length CHECK (length(sifra) >= 10)");
     }
 
     /**
@@ -33,7 +31,6 @@ return new class extends Migration
             $table->string('ime', 255)->change();
             $table->string('prezime', 255)->change();
             $table->string('korisnicko_ime', 255)->change();
-            $table->string('sifra', 255)->change();
         });
 
         DB::statement("ALTER TABLE korisnici DROP CONSTRAINT check_email_format");
