@@ -50,7 +50,7 @@ class AuthController extends Controller
                     "email" => $request->email,
                     "entered_password" => $request->sifra,
                     "hashed_password_in_db" => Korisnik::where('email', $request->email)->value('sifra'),
-                    "password_verification" => Hash::check($request->email, Korisnik::where('email', $request->email)->value('sifra')) ? "true" : "false"
+                     "password_verification" => Hash::check($request->sifra, Korisnik::where('email', $request->email)->value('sifra')) ? "true" : "false"
                 ]
             ], 401);
         }
@@ -64,6 +64,24 @@ class AuthController extends Controller
             "token_type" => "Bearer"
         ]);
     }
+
+
+
+    function logout(){
+        $korisnik = Auth::user();
+
+        if ($korisnik) {
+            $korisnik->tokens->each(function ($token) {
+                $token->delete();
+            });
+        }
+
+        return response()->json([
+            'Poruka' => 'Uspesno ste se izlogovali!'
+        ]);
+    }
+
+
 
     // public function login(Request $request)  {
     //     if (!Auth::attempt(['email' => $request->email, 'password' => $request->sifra])) {

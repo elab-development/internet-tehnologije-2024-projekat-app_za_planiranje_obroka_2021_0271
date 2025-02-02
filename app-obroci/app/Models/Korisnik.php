@@ -22,7 +22,8 @@ class Korisnik extends Authenticatable
         'prezime',
         'korisnicko_ime',
         'email',
-        'sifra'
+        'sifra',
+        'uloga'
     ];
 
     /**
