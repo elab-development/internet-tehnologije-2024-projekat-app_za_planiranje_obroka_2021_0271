@@ -10,7 +10,12 @@ class Recept extends Model
     protected $table = 'recepti';
     protected $fillable = [
         'naziv',
-        'opis'
+        'opis',
+        'veganski',
+        'vegetarijanski',
+        'bez_laktoze',
+        'bez_glutena',
+        'posno'
     ];
     
     use HasFactory;

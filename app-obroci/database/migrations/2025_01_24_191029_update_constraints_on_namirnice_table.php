@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('naziv',40)->change();
         });
 
-        DB::statement("ALTER TABLE namirnice ADD CONSTRAINT check_broj_kalorija CHECK (broj_kalorija > 0)");
-        DB::statement("ALTER TABLE namirnice ADD CONSTRAINT check_proteini CHECK (proteini > 0)");
-        DB::statement("ALTER TABLE namirnice ADD CONSTRAINT check_masti CHECK (masti > 0)");
-        DB::statement("ALTER TABLE namirnice ADD CONSTRAINT check_ugljeni_hidrati CHECK (ugljeni_hidrati > 0)");
+        DB::statement("ALTER TABLE namirnice ADD CONSTRAINT check_broj_kalorija CHECK (broj_kalorija >= 0)");
+        DB::statement("ALTER TABLE namirnice ADD CONSTRAINT check_proteini CHECK (proteini >= 0)");
+        DB::statement("ALTER TABLE namirnice ADD CONSTRAINT check_masti CHECK (masti >= 0)");
+        DB::statement("ALTER TABLE namirnice ADD CONSTRAINT check_ugljeni_hidrati CHECK (ugljeni_hidrati >= 0)");
     }
 
     /**

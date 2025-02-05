@@ -77,8 +77,12 @@ class KorisnikContoller extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Korisnik $korisnik)
+    public function destroy($id)
     {
-        
+        $korisnik = Korisnik::findOrFail($id);
+
+        $korisnik->delete();
+
+        return response()->json(['Korisnik je uspesno obrisan.']);
     }
 }

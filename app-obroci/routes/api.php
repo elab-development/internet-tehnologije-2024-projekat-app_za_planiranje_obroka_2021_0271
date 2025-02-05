@@ -18,11 +18,6 @@ use App\Models\Recept;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::resource('korisnici',KorisnikContoller::class); 
-Route::resource('namirnice',NamirnicaContoller::class); 
-
-Route::resource('recepti',ReceptController::class);
-Route::resource('preferencije',PreferencijeController::class);
 
 Route::get('/alergije', [AlergijeController::class,'index']);
 Route::get('/korisnici/{id}/alergije', [AlergijeController::class,'showKorisnik']);
@@ -34,6 +29,15 @@ Route::post('/login',[AuthController::class, 'login']);
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::resource('obroci',ObrokContoller::class);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::resource('recepti',ReceptController::class);
+    Route::resource('namirnice',NamirnicaContoller::class);
+    Route::post('/korisnik_preferencije', [Korisnik_PreferencijeController::class,'store']);
+    Route::post('/alergije', [AlergijeController::class,'store']);
+    Route::post('/namirnica_recept', [Namirnica_ReceptController::class,'store']);
+    Route::patch('/recepti/{idRecept}/namirnice/{idNamirnica}', [Namirnica_ReceptController::class,'edit']);
+    Route::delete('/korisnici/{idKorisnik}/preferencije/{idPreferencija}', [Korisnik_PreferencijeController::class, 'destroy']);
+    Route::delete('/korisnici/{idKorisnik}/namirnice/{idNamirnica}', [AlergijeController::class, 'destroy']);
+    Route::delete('/recepti/{idRecept}/namirnice/{idNamirnica}', [Namirnica_ReceptController::class, 'destroy']);
 });
 
 
@@ -43,7 +47,8 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
     });
 
     Route::patch('/korisnici/{id}/uloga', [AdminController::class, 'updateUserRole']);
-
+    Route::resource('preferencije',PreferencijeController::class);
+    Route::resource('korisnici',KorisnikContoller::class);
 });
 
 

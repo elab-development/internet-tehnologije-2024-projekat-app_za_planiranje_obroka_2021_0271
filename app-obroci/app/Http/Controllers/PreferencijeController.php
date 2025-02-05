@@ -6,6 +6,8 @@ use App\Models\Preferencije;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PreferencijeResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class PreferencijeController extends Controller
 {
@@ -39,7 +41,19 @@ class PreferencijeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'naziv' => 'required|string|max:255|in:veganski,vegetarijanski,bez_laktoze,bez_glutena,posno|unique:preferencije'
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+    
+        $preferencija = Preferencije::create([
+            'naziv' => $request->naziv
+        ]);
+    
+        return response()->json(['Preferencija je uspesno dodata.', new PreferencijeResource($preferencija)]);
     }
 
     /**
@@ -58,16 +72,36 @@ class PreferencijeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Preferencije $preferencije)
+    public function update(Request $request, $id)
     {
-        //
+        $preferencija = Preferencije::findOrFail($id); 
+
+        Log::info('Updating preferencija:', ['preferencija' => $preferencija]);
+
+        $validator = Validator::make($request->all(), [
+            'naziv' => 'required|string|max:255|in:veganski,vegetarijanski,bez_laktoze,bez_glutena,posno|unique:preferencije',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+    
+        $preferencija->naziv = $request->naziv;
+        
+        $preferencija->save();
+    
+        return response()->json(['message' => 'Preferencija je uspesno izmenjena.', 'preferencija' => $preferencija]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Preferencije $preferencije)
+    public function destroy($id)
     {
-        //
+        $preferencije = Preferencije::findOrFail($id);
+
+        $preferencije->delete();
+
+        return response()->json(['Preferencija je uspesno obrisana.']);
     }
 }

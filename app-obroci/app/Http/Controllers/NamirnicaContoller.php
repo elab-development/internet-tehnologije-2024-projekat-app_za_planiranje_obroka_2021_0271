@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\NamirnicaCollection;
 use App\Http\Resources\NamirnicaResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class NamirnicaContoller extends Controller
 {
@@ -41,7 +43,27 @@ class NamirnicaContoller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'naziv' => 'required|string|max:255',
+            'broj_kalorija' => 'required|integer|min:1',
+            'proteini' => 'required|integer|min:1',
+            'masti' => 'required|integer|min:1',
+            'ugljeni_hidrati' => 'required|integer|min:1'
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+    
+        $namirnica = Namirnica::create([
+            'naziv' => $request->naziv,
+            'broj_kalorija' => $request->broj_kalorija,
+            'proteini' => $request->proteini,
+            'masti' => $request->masti,
+            'ugljeni_hidrati' => $request->ugljeni_hidrati
+        ]);
+    
+        return response()->json(['Namirnica je uspesno dodata.', new NamirnicaResource($namirnica)]);
     }
 
     /**
@@ -60,16 +82,44 @@ class NamirnicaContoller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Namirnica $namirnica)
+    public function update(Request $request, $id)
     {
-        //
+        $namirnica = Namirnica::findOrFail($id);
+
+        Log::info('Updating namirnica:', ['namirnica' => $namirnica]);
+
+        $validator = Validator::make($request->all(), [
+            'naziv' => 'required|string|max:255',
+            'broj_kalorija' => 'required|integer|min:0',
+            'proteini' => 'required|integer|min:0',
+            'masti' => 'required|integer|min:0',
+            'ugljeni_hidrati' => 'required|integer|min:0'
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+    
+        $namirnica->naziv = $request->naziv;
+        $namirnica->broj_kalorija = $request->broj_kalorija;
+        $namirnica->proteini = $request->proteini;
+        $namirnica->masti = $request->masti;
+        $namirnica->ugljeni_hidrati = $request->ugljeni_hidrati;
+        
+        $namirnica->save();
+    
+        return response()->json(['message' => 'Namirnica je uspešno izmenjena.', 'namirnica' => $namirnica]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Namirnica $namirnica)
+    public function destroy($id)
     {
-        //
+        $namirnica = Namirnica::findOrFail($id);
+
+        $namirnica->delete();
+
+        return response()->json(['Namirnica je uspesno obrisana.']);
     }
 }

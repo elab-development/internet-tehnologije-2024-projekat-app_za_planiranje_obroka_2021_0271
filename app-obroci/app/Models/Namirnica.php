@@ -10,7 +10,7 @@ class Namirnica extends Model
     protected $table = 'namirnice';
     protected $fillable =[
         'naziv',
-        'kalorije',
+        'broj_kalorija',
         'proteini',
         'masti',
         'ugljeni_hidrati'

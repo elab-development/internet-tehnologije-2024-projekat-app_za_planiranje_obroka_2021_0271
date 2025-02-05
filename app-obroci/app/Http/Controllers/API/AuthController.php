@@ -19,7 +19,7 @@ class AuthController extends Controller
             'email' => 'required|string|max:50|email:unique:korisnici',
             'korisnicko_ime' => 'required|string|min:10|max:50',
             'sifra' => 'required|string|min:10'
-        ]); //|max:50
+        ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors());
@@ -80,22 +80,4 @@ class AuthController extends Controller
             'Poruka' => 'Uspesno ste se izlogovali!'
         ]);
     }
-
-
-
-    // public function login(Request $request)  {
-    //     if (!Auth::attempt(['email' => $request->email, 'password' => $request->sifra])) {
-    //         return response()->json(["message" => "Neautorizovan pristup"], 401);
-    //     }
-
-    //     $korisnik = Korisnik::where('email', $request['email'])->firstOrDefault();
-
-    //     $token = $korisnik->createToken('auth_token')->plainTextToken;
-
-    //     return response()->json([
-    //         "message" => "Dobrodosli " . $korisnik->ime . " !",
-    //         "acess_token" => $token,
-    //         "token_type" => "Bearer"
-    //     ]);
-    // }
 }

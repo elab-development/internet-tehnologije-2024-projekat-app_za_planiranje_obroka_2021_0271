@@ -6,6 +6,8 @@ use App\Models\Alergija;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AlergijaResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\QueryException;
 
 class AlergijeController extends Controller
 {
@@ -44,7 +46,32 @@ class AlergijeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'korisnik_id' => 'required|exists:korisnici,id',
+            'namirnica_id' => 'required|exists:namirnice,id',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+    
+        try {
+            $alergija = Alergija::create([
+                'korisnik_id' => $request->korisnik_id,
+                'namirnica_id' => $request->namirnica_id,
+            ]);
+    
+            return response()->json(['message' => 'Korisnikova alergija je uspesno dodata.', 'data' => new AlergijaResource($alergija)], 201);
+
+            } catch (QueryException $e) 
+            {
+            if ($e->getCode() === '23000') 
+            {
+                return response()->json(['error' => 'Alergija vec postoji za korisnika.'], 409);
+            }
+    
+            return response()->json(['error' => 'Doslo je do greške prilikom čuvanja podataka.'], 500);
+        }
     }
 
     /**
@@ -71,8 +98,14 @@ class AlergijeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Alergija $alergija)
+    public function destroy($idKorisnik, $idNamirnice)
     {
-        //
+        $brojObrisanihRedova = Alergija::where('korisnik_id', $idKorisnik)->
+        where('namirnica_id', $idNamirnice)->delete();
+
+        if ($brojObrisanihRedova > 0) 
+            return response()->json(['message' => 'Korisnikova alergija je uspesno obrisana.']);
+        else 
+            return response()->json(['message' => 'Nije pronadjena korisnikova alergija za brisanje.'], 404);
     }
 }

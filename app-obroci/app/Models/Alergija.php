@@ -9,7 +9,7 @@ class Alergija extends Model
 {
     /** @use HasFactory<\Database\Factories\AlergijaFactory> */
     use HasFactory;
-
+    
     protected $table = 'alergije';
     protected $fillable =
     [

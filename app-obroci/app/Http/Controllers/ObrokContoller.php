@@ -6,6 +6,8 @@ use App\Models\Obrok;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ObrokResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class ObrokContoller extends Controller
 {
@@ -39,7 +41,28 @@ class ObrokContoller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'datum' => 'required|date',  
+            'tip' => 'required|string|in:dorucak,rucak,uzina,vecera', 
+            'korisnik_id' => 'required|exists:korisnici,id',
+            'recept_id' => 'required|exists:recepti,id'
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+    
+        $obrok = Obrok::create([
+            'datum' => $request->datum,
+            'tip' => $request->tip,
+            'korisnik_id' => $request->korisnik_id,
+            'recept_id' => $request->recept_id
+        ]);
+    
+        return response()->json([
+            'message' => 'Obrok je uspešno dodat.',
+            'obrok' => new ObrokResource($obrok)
+        ]);
     }
 
     /**
@@ -58,16 +81,45 @@ class ObrokContoller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Obrok $obrok)
+    public function update(Request $request, $id)
     {
-        //
+        $obrok = Obrok::findOrFail($id);
+
+    Log::info('Updating obrok:', ['obrok' => $obrok]);
+
+    $validator = Validator::make($request->all(), [
+        'datum' => 'required|date',  
+        'tip' => 'required|string|in:dorucak,rucak,uzina,vecera',
+        'korisnik_id' => 'required|exists:korisnici,id',
+        'recept_id' => 'required|exists:recepti,id'
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 422);
+    }
+
+    $obrok->datum = $request->datum;
+    $obrok->tip = $request->tip;
+    $obrok->korisnik_id = $request->korisnik_id;
+    $obrok->recept_id = $request->recept_id;
+
+    $obrok->save();
+
+    return response()->json([
+        'message' => 'Obrok je uspesno izmenjen.',
+        'obrok' => $obrok
+    ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Obrok $obrok)
+    public function destroy($id)
     {
-        //
+        $obrok = Obrok::findOrFail($id);
+
+        $obrok->delete();
+
+        return response()->json(['Obrok je uspesno obrisan.']);
     }
 }
