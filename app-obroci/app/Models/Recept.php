@@ -23,4 +23,9 @@ class Recept extends Model
     function obroci(){
         return $this->hasMany(Obrok::class);
     }
+
+    public function namirnice()
+    {
+        return $this->belongsToMany(Namirnica::class, 'namirnica_recept', 'recept_id', 'namirnica_id')->withPivot('kolicina'); 
+    }
 }

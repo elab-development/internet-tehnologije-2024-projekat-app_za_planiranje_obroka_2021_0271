@@ -16,9 +16,33 @@ class KorisnikContoller extends Controller
 
     
 
-    public function index()
+    public function index(Request $request)
     {
-        $korisnici = Korisnik::all();
+        $query = Korisnik::query();
+
+        // Filtriranje po imenu
+        if ($request->has('ime')) {
+            $query->where('ime', 'like', '%' . $request->ime . '%');
+        }
+    
+        // Filtriranje po prezimenu
+        if ($request->has('prezime')) {
+            $query->where('prezime', 'like', '%' . $request->prezime . '%');
+        }
+    
+        // Filtriranje po korisničkom imenu
+        if ($request->has('korisnicko_ime')) {
+            $query->where('korisnicko_ime', 'like', '%' . $request->korisnicko_ime . '%');
+        }
+    
+        // Filtriranje po email-u
+        if ($request->has('email')) {
+            $query->where('email', 'like', '%' . $request->email . '%');
+        }
+    
+        // Paginacija (podrazumevano 10 po strani, ali može se menjati parametrom per_page)
+        $korisnici = $query->paginate($request->get('per_page', 10));
+
         if(is_null($korisnici)){
             return response()->json('Korisnici nisu pronadjeni', 404 );
         }

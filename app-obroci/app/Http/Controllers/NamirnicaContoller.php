@@ -15,9 +15,43 @@ class NamirnicaContoller extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $namirnice = Namirnica::all();
+        $query = Namirnica::query();
+
+        
+        if ($request->has('naziv')) {
+            $query->where('naziv', 'like', '%' . $request->naziv . '%');
+        }
+
+        if ($request->has('broj_kalorija')) {
+            $broj_kalorija = $request->get('broj_kalorija');
+            $operacija = $request->get('broj_kalorija_operator', '='); // Default operator '>'
+            $query->where('broj_kalorija', $operacija, $broj_kalorija);
+        }
+    
+       
+        if ($request->has('proteini')) {
+            $proteini = $request->get('proteini');
+            $operacija = $request->get('proteini_operator', '='); // Default operator '>'
+            $query->where('proteini', $operacija, $proteini);
+        }
+    
+
+        if ($request->has('masti')) {
+            $masti = $request->get('masti');
+            $operacija = $request->get('masti_operator', '='); 
+            $query->where('masti', $operacija, $masti);
+        }
+    
+       
+        if ($request->has('ugljeni_hidrati')) {
+            $ugljeni_hidrati = $request->get('ugljeni_hidrati');
+            $operacija = $request->get('ugljeni_hidrati_operator', '='); 
+            $query->where('ugljeni_hidrati', $operacija, $ugljeni_hidrati);
+        }
+
+        $namirnice = $query->paginate($request->get('per_page', 10));
         return new NamirnicaCollection($namirnice);
     }
 

@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::delete('/korisnici/{idKorisnik}/preferencije/{idPreferencija}', [Korisnik_PreferencijeController::class, 'destroy']);
     Route::delete('/korisnici/{idKorisnik}/namirnice/{idNamirnica}', [AlergijeController::class, 'destroy']);
     Route::delete('/recepti/{idRecept}/namirnice/{idNamirnica}', [Namirnica_ReceptController::class, 'destroy']);
+    Route::get('/pretrazi-recepte', [ReceptController::class, 'pretrazi']);
 });
 
 

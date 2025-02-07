@@ -55,4 +55,14 @@ class Korisnik extends Authenticatable
     {
         return $this->sifra;
     }
+
+    public function preferencije()
+    {
+        return $this->belongsToMany(Preferencije::class, 'korisnik_preferencije', 'korisnik_id', 'preferencija_id');
+    }
+
+    public function alergije()
+    {
+        return $this->belongsToMany(Namirnica::class, 'alergije', 'korisnik_id', 'namirnica_id');
+    }
 }

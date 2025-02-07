@@ -14,9 +14,18 @@ class PreferencijeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $preferencije = Preferencije::all();
+        $query = Preferencije::query();
+
+    
+        if ($request->has('naziv')) {
+        $query->where('naziv', 'like', '%' . $request->naziv . '%');
+        }
+
+   
+        $preferencije = $query->paginate($request->get('per_page', 10));
+
         return PreferencijeResource::collection($preferencije);
     }
 

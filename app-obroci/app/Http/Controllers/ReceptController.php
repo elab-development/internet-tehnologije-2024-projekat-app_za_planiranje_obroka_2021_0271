@@ -15,11 +15,36 @@ class ReceptController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+    
+    public function index(Request $request)
     {
-        
-            $recepti = Recept::all();
-            return ReceptResource::collection($recepti);
+        $query = Recept::query();
+
+         
+        if ($request->has('veganski')) {
+            $query->where('veganski', (bool) $request->veganski);
+        }
+        if ($request->has('posno')) {
+            $query->where('posno', (bool) $request->posno);
+        }
+        if ($request->has('vegetarijanski')) {
+            $query->where('vegetarijanski', (bool) $request->vegetarijanski);
+        }
+        if ($request->has('bez_laktoze')) {
+            $query->where('bez_laktoze', (bool) $request->bez_laktoze);
+        }
+        if ($request->has('bez_glutena')) {
+            $query->where('bez_glutena', (bool) $request->bez_glutena);
+        }
+
+        if ($request->has('naziv')) {
+        $query->where('naziv', 'like', '%' . $request->naziv . '%');
+        }
+
+    
+    $recepti = $query->paginate($request->get('per_page', 10));
+    return ReceptResource::collection($recepti);
         
     }
 
@@ -133,4 +158,36 @@ class ReceptController extends Controller
 
         return response()->json(['Recept je uspesno obrisan.']);
     }
+
+
+    public function pretrazi(Request $request)
+{
+    $korisnik = Auth::user();
+
+    if (!$korisnik) {
+        return response()->json(['error' => 'Niste prijavljeni.'], 401);
+    }
+
+    $query = Recept::query();
+
+    $alergije = $korisnik->alergije->pluck('id')->toArray();
+
+    if (!empty($alergije)) {
+        $query->whereDoesntHave('namirnice', function ($q) use ($alergije) {
+            $q->whereIn('namirnica_id', $alergije);
+        });
+    }
+
+   
+    $preferencije = $korisnik->preferencije->pluck('naziv')->toArray();
+
+    if (!empty($preferencije)) {
+        foreach ($preferencije as $preferencija) {
+            $query->where($preferencija, true);
+        }
+    }
+
+    $recepti = $query->get();
+    return response()->json($recepti);
+}
 }

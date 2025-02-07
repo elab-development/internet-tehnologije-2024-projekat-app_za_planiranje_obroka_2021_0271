@@ -14,9 +14,20 @@ class ObrokContoller extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $obroci = Obrok::all();
+        $query = Obrok::query();
+        if ($request->has('datum')) {
+            $query->whereDate('datum', $request->datum);
+        }
+    
+        
+        if ($request->has('datum_od') && $request->has('datum_do')) {
+            $query->whereBetween('datum', [$request->datum_od, $request->datum_do]);
+        }
+    
+
+        $obroci = $query->paginate($request->get('per_page', 10));
         return ObrokResource::collection($obroci);
     }
 
