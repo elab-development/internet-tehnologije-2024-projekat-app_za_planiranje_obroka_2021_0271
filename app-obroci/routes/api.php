@@ -25,6 +25,8 @@ Route::get('/korisnici/{id}/preferencije', [Korisnik_PreferencijeController::cla
 Route::get('/recepti/{id}/namirnice', [Namirnica_ReceptController::class,'showRecept']);
 Route::post('/register',[AuthController::class, 'register']);
 Route::post('/login',[AuthController::class, 'login']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::resource('obroci',ObrokContoller::class);

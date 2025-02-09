@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\PasswordReset;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -79,5 +81,54 @@ class AuthController extends Controller
         return response()->json([
             'Poruka' => 'Uspesno ste se izlogovali!'
         ]);
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:korisnici,email',
+        ]);
+
+        $token = Str::random(60);
+
+        PasswordReset::updateOrCreate(
+            ['email' => $request->email],
+            ['token' => Hash::make($token), 'created_at' => now()]
+        );
+
+        return response()->json([
+            'message' => 'Email poslat sa tokenom za resetovanje.',
+            'token' => $token
+        ]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:korisnici,email',
+            'token' => 'required',
+            'sifra' => 'required|string|min:10',
+        ]);
+
+        $reset = PasswordReset::where('email', $request->email)->first();
+        if (!$reset) {
+            return response()->json(['message' => 'Invalidan token.'], 400);
+        }
+
+        if (!Hash::check($request->token, $reset->token)) {
+            return response()->json(['message' => 'Invalidan token.'], 400);
+        }
+
+        $korisnik = Korisnik::where('email', $request->email)->first();
+        if (!$korisnik) {
+            return response()->json(['message' => 'Korisnik nije pronadjen.'], 404);
+        }
+
+        $korisnik->sifra = Hash::make($request->sifra);
+        $korisnik->save();
+
+        $reset->delete();
+
+        return response()->json(['message' => 'Sifra uspesno promenjena.']);
     }
 }
