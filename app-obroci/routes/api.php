@@ -16,6 +16,7 @@ use App\Models\Namirnica_Recept;
 use App\Models\Obrok;
 use App\Models\Recept;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 
@@ -53,6 +54,10 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
     Route::resource('preferencije',PreferencijeController::class);
     Route::resource('korisnici',KorisnikContoller::class);
 });
+
+
+//Javni servis
+Route::get('/nutritivne-vrednosti/{namirnica}', [NamirnicaContoller::class, 'uzmiNutritivneVrednostiAPI']);
 
 
 

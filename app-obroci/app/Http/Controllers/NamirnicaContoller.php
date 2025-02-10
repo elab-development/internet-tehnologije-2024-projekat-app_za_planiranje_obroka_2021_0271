@@ -7,14 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\NamirnicaCollection;
 use App\Http\Resources\NamirnicaResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class NamirnicaContoller extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index(Request $request)
     {
         $query = Namirnica::query();
@@ -64,17 +63,7 @@ class NamirnicaContoller extends Controller
         return new NamirnicaResource($namirnica);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -100,22 +89,7 @@ class NamirnicaContoller extends Controller
         return response()->json(['Namirnica je uspesno dodata.', new NamirnicaResource($namirnica)]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-   
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Namirnica $namirnica)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
+    
     public function update(Request $request, $id)
     {
         $namirnica = Namirnica::findOrFail($id);
@@ -145,9 +119,6 @@ class NamirnicaContoller extends Controller
         return response()->json(['message' => 'Namirnica je uspešno izmenjena.', 'namirnica' => $namirnica]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $namirnica = Namirnica::findOrFail($id);
@@ -156,4 +127,62 @@ class NamirnicaContoller extends Controller
 
         return response()->json(['Namirnica je uspesno obrisana.']);
     }
+
+
+
+    public function uzmiNutritivneVrednostiAPI($namirnica)
+{
+    // Proveri da li proizvod postoji u bazi
+    $postojeciProizvod = Namirnica::where('naziv', 'like', '%' . $namirnica . '%')->first();
+
+    if ($postojeciProizvod) {
+        return response()->json([
+            'naziv' => $postojeciProizvod->naziv,
+            'proteini' => $postojeciProizvod->proteini,
+            'ugljeni_hidrati' => $postojeciProizvod->ugljeni_hidrati,
+            'masti' => $postojeciProizvod->masti,
+            'broj_kalorija' => $postojeciProizvod->broj_kalorija,
+        ]);
+    }
+
+    // Pretraga proizvoda po nazivu u API-u
+    $searchResponse = Http::get("https://world.openfoodfacts.org/cgi/search.pl", [
+        'search_terms' => $namirnica,
+        'search_simple' => 1,
+        'action' => 'process',
+        'page_size' => 5,
+        'json' => 1
+    ]);
+
+    if ($searchResponse->failed() || empty($searchResponse['products'])) {
+        return response()->json(['error' => 'Podaci nisu pronađeni'], 404);
+    }
+
+    $proizvodi = $searchResponse['products'];
+    $rezultat = [];
+
+    foreach ($proizvodi as $proizvod) {
+        if (empty($proizvod['nutriments'])) {
+            continue; // Ako nema nutritivnih podataka, preskoči proizvod
+        }
+
+        $nutrijenti = $proizvod['nutriments'];
+        $rezultat[] = [
+            'naziv' => $proizvod['product_name'] ?? 'Nepoznato',
+            'proteini' => $nutrijenti['proteins_100g'] ?? null,
+            'ugljeni_hidrati' => $nutrijenti['carbohydrates_100g'] ?? null,
+            'masti' => $nutrijenti['fat_100g'] ?? null,
+            'kalorije' => $nutrijenti['energy-kcal_100g'] ?? null
+        ];
+    }
+
+    if (empty($rezultat)) {
+        return response()->json(['error' => 'Nutritivni podaci nisu dostupni za bilo koji proizvod'], 404);
+    }
+
+    return response()->json($rezultat);
+} 
+    
+
+
 }

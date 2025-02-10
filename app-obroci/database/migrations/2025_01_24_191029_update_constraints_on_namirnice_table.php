@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('namirnice', function (Blueprint $table) {
-            $table->string('naziv',40)->change();
+            $table->string('naziv', 40)->change();
         });
 
         DB::statement("ALTER TABLE namirnice ADD CONSTRAINT check_broj_kalorija CHECK (broj_kalorija >= 0)");
