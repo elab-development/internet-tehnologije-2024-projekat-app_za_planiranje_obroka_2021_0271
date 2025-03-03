@@ -52,8 +52,9 @@ class AuthController extends Controller
                     "email" => $request->email,
                     "entered_password" => $request->sifra,
                     "hashed_password_in_db" => Korisnik::where('email', $request->email)->value('sifra'),
-                     "password_verification" => Hash::check($request->sifra, Korisnik::where('email', $request->email)->value('sifra')) ? "true" : "false"
-                ]
+                    "password_verification" => Hash::check($request->sifra, Korisnik::where('email', $request->email)->value('sifra')) ? "true" : "false"
+                ],
+                "success" => false
             ], 401);
         }
     
@@ -63,7 +64,8 @@ class AuthController extends Controller
         return response()->json([
             "message" => "Dobrodosli " . $korisnik->ime . "!",
             "access_token" => $token,
-            "token_type" => "Bearer"
+            "token_type" => "Bearer",
+            "success" => true
         ]);
     }
 

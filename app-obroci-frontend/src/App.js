@@ -3,13 +3,21 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from './Components/LoginPage';
 import axios from 'axios';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import HomePage from './Components/HomePage';
+import RegisterPage from './Components/RegisterPage';
 
 
 function App() {
   return (
-    <div className="App">
-      <LoginPage/>
-    </div>
+  
+    <BrowserRouter className="App">
+      <Routes>
+      <Route path="/login" element={<LoginPage/>}/>
+      <Route path="/register" element={<RegisterPage/>}/>
+      <Route path="/" element={<HomePage/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

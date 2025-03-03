@@ -46,9 +46,9 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
 
 Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return response()->json(['message' => 'Dobrodosli, Admine!']);
-    });
+    // Route::get('/admin/dashboard', function () {
+    //     return response()->json(['message' => 'Dobrodosli, Admine!']);
+    // });
 
     Route::patch('/korisnici/{id}/uloga', [AdminController::class, 'updateUserRole']);
     Route::resource('preferencije',PreferencijeController::class);
