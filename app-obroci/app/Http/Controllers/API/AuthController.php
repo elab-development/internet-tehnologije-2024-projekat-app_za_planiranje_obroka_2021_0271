@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Mail\HiUserMail;
+use App\Mail\PasswordResetMail;
 use App\Models\Korisnik;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\PasswordReset;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -91,12 +94,14 @@ class AuthController extends Controller
             'email' => 'required|email|exists:korisnici,email',
         ]);
 
-        $token = Str::random(60);
+        $token = Str::random(6);
 
         PasswordReset::updateOrCreate(
             ['email' => $request->email],
             ['token' => Hash::make($token), 'created_at' => now()]
         );
+
+        Mail::to($request->email)->send(new PasswordResetMail($token));
 
         return response()->json([
             'message' => 'Email poslat sa tokenom za resetovanje.',
