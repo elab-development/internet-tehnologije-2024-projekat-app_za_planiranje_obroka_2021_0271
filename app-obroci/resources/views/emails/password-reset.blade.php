@@ -6,7 +6,7 @@
     <title>Resetovanje lozinke</title>
 </head>
 <body>
-    <p>Poštovani</p>
+    <p>Poštovani,</p>
 
     <p>Primili smo zahtev za resetovanje lozinke za vaš NutriPlan nalog.</p>
 

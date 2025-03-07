@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.faq-card:hover {
+  background-color: #f1f1f1; /* Pobedite karticu sa svetlom bojom */
+  border-color: #388E3C; /* Pobedite boju granice */
+}
+
+.faq-card:hover .faq-icon {
+  color: #388E3C; /* Pobedite boju ikone */
+}

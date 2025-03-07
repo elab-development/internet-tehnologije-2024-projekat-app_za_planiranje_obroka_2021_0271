@@ -4,14 +4,14 @@ import axios from "axios";
 
 function ForgotPassword() {
     const [email, setEmail] = useState("");
-    const navigate = useNavigate(); // Dodato za navigaciju
+    const navigate = useNavigate(); // For navigation
 
     const handleReset = async () => {
         try {
             const response = await axios.post("http://localhost:8000/api/forgot-password", { email });
             window.alert(response.data.message);
             
-            // Nakon uspešnog slanja emaila, preusmeri korisnika na reset-password stranicu
+            // After successfully sending the email, navigate to the reset-password page
             navigate("/reset_password");
         } catch (error) {
             window.alert("Greška pri slanju emaila");
@@ -26,16 +26,18 @@ function ForgotPassword() {
             <div 
                 className="card text-center"
                 style={{ 
-                    width: "520px",  
-                    height: "36vh",  
+                    width: "100%",  // Take full width
+                    maxWidth: "520px",  // Slightly reduced max width
+                    height: "auto",  // Auto height based on content
                     background: "linear-gradient(to bottom, #388E3C, #1B5E20)", 
                     color: "white",
                     borderRadius: "15px",
-                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)"
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
+                    paddingBottom: "20px"  // Padding at the bottom
                 }}
             >
                 <div 
-                    className="card-header h5" 
+                    className="card-header h4" 
                     style={{ 
                         background: "linear-gradient(to right, #2E7D32, #1B5E20)", 
                         borderTopLeftRadius: "15px", 
@@ -45,7 +47,7 @@ function ForgotPassword() {
                     Resetovanje lozinke
                 </div>
                 <div className="card-body px-4">
-                    <p className="card-text py-2">
+                    <p className="card-text py-2" style={{ fontSize: "16px" }}>
                         Unesite svoju email adresu i poslaćemo vam uputstva za resetovanje lozinke.
                     </p>
                     <div className="form-outline">
@@ -57,23 +59,31 @@ function ForgotPassword() {
                                 background: "#cbf0bb", 
                                 color: "black", 
                                 border: "none", 
-                                textAlign: "center" 
+                                textAlign: "center", 
+                                padding: "8px",  // Reduced padding for input field
+                                fontSize: "16px"  // Adjusted font size
                             }} 
                             value={email} 
                             onChange={(e) => setEmail(e.target.value)} 
                         />
-                        <label className="form-label" htmlFor="typeEmail" style={{ color: "white" }}>
+                        <label className="form-label" htmlFor="typeEmail" style={{ color: "white", fontSize: "14px" }}>
                             Email
                         </label>
                     </div>
                     <button 
                         className="btn w-100" 
-                        style={{ background: "#388E3C", color: "white", border: "none" }}
+                        style={{ 
+                            background: "#388E3C", 
+                            color: "white", 
+                            border: "none", 
+                            padding: "10px",  // Reduced padding for button
+                            fontSize: "14px"  // Smaller font size for the button
+                        }} 
                         onClick={handleReset}
                     >
                         Resetuj lozinku
                     </button>
-                    <div className="d-flex justify-content-between mt-4">
+                    <div className="d-flex justify-content-between mt-4" style={{ fontSize: "14px" }}>
                         <Link to="/login" className="text-white text-decoration-none">Prijava</Link>
                         <Link to="/register" className="text-white text-decoration-none">Registracija</Link>
                     </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import loginPhoto from "../Images/slika.jpg";
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import { RiLeafFill } from "react-icons/ri";
 
 function LoginPage() {
   const [userData, setUserData] = useState({
@@ -18,7 +19,7 @@ function LoginPage() {
 
   function handleLogin(e) {
     e.preventDefault();
-    setError(false); // Reset error before request
+    setError(false); 
 
     axios
       .post("api/login", userData)
@@ -29,7 +30,7 @@ function LoginPage() {
         }
       })
       .catch(() => {
-        setError(true); // Show error if login fails
+        setError(true); 
       });
   }
 
@@ -46,7 +47,12 @@ function LoginPage() {
         </div>
         <div className="col-md-6 d-flex align-items-center justify-content-center p-4">
           <div className="card-body text-black text-center" style={{ width: "100%" }}>
-            <h2 className="mb-4" style={{ fontSize: "min(2vw, 3vh)" }}>Dobrodošli na našu aplikaciju o obrocima</h2>
+          <h1 className="mb-4" style={{ fontSize: "min(2vw, 3vh)" }}>
+              Dobrodošli na{" "}
+              NutriPlan aplikaciju!
+            <RiLeafFill style={{ fontSize: "30px", marginRight: "8px", color: "#388E3C" }} />
+             
+            </h1>
             {error && <p className="text-danger">Pogrešan email ili šifra</p>} {/* Error message */}
             <form onSubmit={handleLogin}>
               <div className="form-outline mb-4">

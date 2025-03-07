@@ -27,7 +27,11 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ]);
         }
 
         $korisnik = Korisnik::create([
@@ -43,7 +47,8 @@ class AuthController extends Controller
         return response()->json([
         'data' => $korisnik, 
         'access_token' => $token, 
-        'token_type' => 'Bearer'
+        'token_type' => 'Bearer',
+        'success' => true
         ]);
     }
 

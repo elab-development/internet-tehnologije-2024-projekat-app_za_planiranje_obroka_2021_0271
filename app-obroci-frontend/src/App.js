@@ -8,11 +8,14 @@ import HomePage from './Components/HomePage';
 import RegisterPage from './Components/RegisterPage';
 import ForgotPassword from './Components/ForgotPassword';
 import ResetPassword from './Components/ResetPassword';
+import NavBar from './Components/NavBar';
+
 
 
 function App() {
   return (
     <BrowserRouter className="App">
+      <NavBar></NavBar>
       <Routes>
       <Route path="/login" element={<LoginPage/>}/>
       <Route path="/register" element={<RegisterPage/>}/>
