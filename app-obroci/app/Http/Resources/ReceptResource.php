@@ -26,8 +26,6 @@ class ReceptResource extends JsonResource
             'bez_laktoze'=>$this->resource->bez_laktoze,
             'bez_glutena'=>$this->resource->bez_glutena,
             'posno'=>$this->resource->posno,
-            
-            
         ];
     }
 }

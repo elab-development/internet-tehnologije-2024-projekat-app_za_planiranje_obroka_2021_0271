@@ -18,7 +18,6 @@ class Korisnik_PreferencijeResource extends JsonResource
         return [
             'korisnik'=> new KorisnikResource($this->resource->korisnik),
             'preferencija'=> new PreferencijeResource($this->resource->preferencija),
-            
         ];
     }
 }

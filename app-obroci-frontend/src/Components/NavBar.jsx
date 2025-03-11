@@ -47,25 +47,25 @@ function NavBar() {
             </Link>
             <Link 
               className="nav-link"
-              to="/recipes"
+              to="/recepti"
               style={{
                 transition: "color 0.3s", 
                 color: "#388E3C"
               }}
-              onMouseEnter={e => e.target.style.color = "#60D394"} // Hover color
-              onMouseLeave={e => e.target.style.color = "#388E3C"} // Reset color
+              onMouseEnter={e => e.target.style.color = "#60D394"} 
+              onMouseLeave={e => e.target.style.color = "#388E3C"}
             >
               Recepti
             </Link>
             <Link 
               className="nav-link"
-              to="/meals"
+              to="/obroci"
               style={{
                 transition: "color 0.3s", 
                 color: "#388E3C"
               }}
-              onMouseEnter={e => e.target.style.color = "#60D394"} // Hover color
-              onMouseLeave={e => e.target.style.color = "#388E3C"} // Reset color
+              onMouseEnter={e => e.target.style.color = "#60D394"} 
+              onMouseLeave={e => e.target.style.color = "#388E3C"} 
             >
               Obroci
             </Link>

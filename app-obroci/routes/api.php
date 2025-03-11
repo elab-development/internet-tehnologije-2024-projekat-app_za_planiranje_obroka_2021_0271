@@ -28,11 +28,13 @@ Route::post('/register',[AuthController::class, 'register']);
 Route::post('/login',[AuthController::class, 'login']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+Route::resource('recepti',ReceptController::class);
+//prebacili smo iznad ovu rutu
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::resource('obroci',ObrokContoller::class);
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::resource('recepti',ReceptController::class);
+    
     Route::resource('namirnice',NamirnicaContoller::class);
     Route::post('/korisnik_preferencije', [Korisnik_PreferencijeController::class,'store']);
     Route::post('/alergije', [AlergijeController::class,'store']);
