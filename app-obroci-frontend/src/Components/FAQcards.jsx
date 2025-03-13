@@ -27,9 +27,9 @@ function FAQCard({ question, answer }) {
               {question}
             </h5>
           </div>
-          <p className="card-text mt-2" style={{ color: "#4CAF50" }}>
+          <div className="card-text mt-2" style={{ color: "#4CAF50" }}>
             {answer}
-          </p>
+          </div>
         </Card.Body>
       </Card>
 

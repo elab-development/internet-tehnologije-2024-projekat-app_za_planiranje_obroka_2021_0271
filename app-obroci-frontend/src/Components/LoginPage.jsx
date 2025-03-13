@@ -26,6 +26,7 @@ function LoginPage() {
       .then((res) => {
         if (res.data.success === true) {
           window.sessionStorage.setItem("auth_token", res.data.access_token);
+          window.sessionStorage.setItem("username", res.data.korisnik.korisnicko_ime);
           navigate("/");
         }
       })

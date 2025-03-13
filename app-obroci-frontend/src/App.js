@@ -11,23 +11,29 @@ import ResetPassword from './Components/ResetPassword';
 import ReceptiPage from './Components/ReceptiPage';
 import NavBar from './Components/NavBar';
 import ReceptiDetaljnijePage from './Components/ReceptiDetaljnijePage';
+import Layout from './Components/Layout';
 
 
 
 function App() {
   return (
-    <BrowserRouter className="App">
-      <NavBar></NavBar>
-      <Routes>
-      <Route path="/login" element={<LoginPage/>}/>
-      <Route path="/register" element={<RegisterPage/>}/>
-      <Route path="/forgot_password" element={<ForgotPassword/>}/>
-      <Route path="/reset_password" element={<ResetPassword/>}/>
-      <Route path="/recepti" element={<ReceptiPage/>}/>
-      <Route path="/recepti/:id" element={<ReceptiDetaljnijePage/>} />
-      <Route path="/" element={<HomePage/>}/>
-      </Routes>
-    </BrowserRouter>
+    <BrowserRouter>
+    <Routes>
+   
+      <Route element={<Layout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/recepti" element={<ReceptiPage />} />
+        <Route path="/recepti/:id" element={<ReceptiDetaljnijePage />} />
+        <Route path="/obroci" element={<h1>Obroci Page</h1>} />
+      </Route>
+
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/forgot_password" element={<ForgotPassword />} />
+      <Route path="/reset_password" element={<ResetPassword />} />
+      
+    </Routes>
+  </BrowserRouter>
   );
 }
 

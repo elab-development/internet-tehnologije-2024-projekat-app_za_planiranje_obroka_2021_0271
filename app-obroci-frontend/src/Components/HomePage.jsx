@@ -1,5 +1,5 @@
 import React from "react";
-import { RiLeafFill, RiAlarmWarningFill, RiFileTextFill } from "react-icons/ri"; // Ikone
+import { RiLeafFill, RiAlarmWarningFill, RiFileTextFill } from "react-icons/ri"; // Icons
 import banerPhoto from "../Images/welcome.png";
 import cookingPhoto from "../Images/cooking.jpeg";
 import HomePageDescription from "./HomePageDescription";
@@ -14,6 +14,7 @@ function HomePage() {
       style={{
         backgroundColor: "rgba(178, 246, 175, 0.8)",
         minHeight: "100vh",
+         
       }}
     >
      
@@ -22,6 +23,8 @@ function HomePage() {
         style={{
           minHeight: "24vh",
           position: "relative", 
+          zIndex: 0,
+          
         }}
       >
         <div
@@ -96,15 +99,17 @@ function HomePage() {
               title="Šta je NutriPlan?"
               content={
                 <>
-                  <p>
-                    NutriPlan vam pomaže da pratite ishranu i organizujete obroke na osnovu vaših ciljeva i preferencija.
-                  </p>
-                  <p>
-                    Sajt omogućava personalizaciju plana ishrane, praćenje kalorijskog unosa i omogućava vam da pratite napredak prema vašim ciljevima.
-                  </p>
-                  <p>
-                    Takođe, možete pratiti sve promene i unapređenja kroz detaljan izvještaj o vašim navikama i napretku.
-                  </p>
+                  <div>
+                    <p>
+                      NutriPlan vam pomaže da pratite ishranu i organizujete obroke na osnovu vaših ciljeva i preferencija.
+                    </p>
+                    <p>
+                      Sajt omogućava personalizaciju plana ishrane, praćenje kalorijskog unosa i omogućava vam da pratite napredak prema vašim ciljevima.
+                    </p>
+                    <p>
+                      Takođe, možete pratiti sve promene i unapređenja kroz detaljan izvještaj o vašim navikama i napretku.
+                    </p>
+                  </div>
                 </>
               }
               icon={<RiLeafFill />} 
@@ -115,15 +120,17 @@ function HomePage() {
               title="Planiranje obroka"
               content={
                 <>
-                  <p>
-                    Naša aplikacija omogućava lako planiranje obroka i generisanje shopping listi sa namirnicama.
-                  </p>
-                  <p>
-                    Na osnovu vaših preferencija i ciljeva, možete kreirati sedmične obroke koji vam pomažu da održite zdravu ishranu.
-                  </p>
-                  <p>
-                    Takođe, možete filtrirati recepte prema specifičnim potrebama kao što su veganski, bezglutenski ili keto. Sve liste su jednostavne za praćenje.
-                  </p>
+                  <div>
+                    <p>
+                      Naša aplikacija omogućava lako planiranje obroka i generisanje shopping listi sa namirnicama.
+                    </p>
+                    <p>
+                      Na osnovu vaših preferencija i ciljeva, možete kreirati sedmične obroke koji vam pomažu da održite zdravu ishranu.
+                    </p>
+                    <p>
+                      Takođe, možete filtrirati recepte prema specifičnim potrebama kao što su veganski, bezglutenski ili keto. Sve liste su jednostavne za praćenje.
+                    </p>
+                  </div>
                 </>
               }
               icon={<RiAlarmWarningFill />} 
@@ -134,15 +141,17 @@ function HomePage() {
               title="Nutritivne vrednosti"
               content={
                 <>
-                  <p>
-                    Pratite nutritivne vrednosti i prilagodite ishranu prema vašim potrebama za zdravlje i energiju.
-                  </p>
-                  <p>
-                    NutriPlan vam pruža detaljan uvid u kalorije, vitamine, minerale i sve nutritivne vrednosti koje unosite tokom dana.
-                  </p>
-                  <p>
-                    Možete pratiti kako određene promene u ishrani utiču na vašu energiju i zdravlje, i prilagoditi planove za optimalne rezultate.
-                  </p>
+                  <div>
+                    <p>
+                      Pratite nutritivne vrednosti i prilagodite ishranu prema vašim potrebama za zdravlje i energiju.
+                    </p>
+                    <p>
+                      NutriPlan vam pruža detaljan uvid u kalorije, vitamine, minerale i sve nutritivne vrednosti koje unosite tokom dana.
+                    </p>
+                    <p>
+                      Možete pratiti kako određene promene u ishrani utiču na vašu energiju i zdravlje, i prilagoditi planove za optimalne rezultate.
+                    </p>
+                  </div>
                 </>
               }
               icon={<RiFileTextFill />} 
@@ -162,40 +171,39 @@ function HomePage() {
           }
         `}
       </style>
+
       <div className="container py-5">
-      <h2
-        className="text-center mb-4"
-        style={{
-          fontSize: "min(5vw, 6vh)",
-          color: "#388E3C",
-        }}
-      >
-        Često postavljana pitanja (FAQ){" "}
-       
-      </h2>
-      <br/>
-      <div className="row">
-        <div className="col-md-4">
-          <FAQCard
-            question="Kako da započnem sa planiranjem obroka?"
-            answer="Prijavite se na NutriPlan i počnite sa kreiranjem svog personalizovanog plana ishrane. Na osnovu vaših ciljeva moći ćete da planirate obroke."
-          />
-        </div>
-        <div className="col-md-4">
-          <FAQCard
-            question="Da li mogu da unosim alergije u aplikaciju?"
-            answer="Da, aplikacija omogućava dodavanje alergija i drugih specifičnih prehrambenih potreba, kako bi se planirali obroci koji su bezbedni za vas."
-          />
-        </div>
-        <div className="col-md-4">
-          <FAQCard
-            question="Mogu li da pratim nutritivne vrednosti?"
-            answer="Da, NutriPlan vam omogućava da pratite kalorije, vitamine, minerale i druge nutritivne vrednosti koje unosite tokom dana."
-          />
+        <h2
+          className="text-center mb-4"
+          style={{
+            fontSize: "min(5vw, 6vh)",
+            color: "#388E3C",
+          }}
+        >
+          Često postavljana pitanja (FAQ)
+        </h2>
+        <br />
+        <div className="row">
+          <div className="col-md-4">
+            <FAQCard
+              question="Kako da započnem sa planiranjem obroka?"
+              answer="Prijavite se na NutriPlan i počnite sa kreiranjem svog personalizovanog plana ishrane. Na osnovu vaših ciljeva moći ćete da planirate obroke."
+            />
+          </div>
+          <div className="col-md-4">
+            <FAQCard
+              question="Da li mogu da unosim alergije u aplikaciju?"
+              answer="Da, aplikacija omogućava dodavanje alergija i drugih specifičnih prehrambenih potreba, kako bi se planirali obroci koji su bezbedni za vas."
+            />
+          </div>
+          <div className="col-md-4">
+            <FAQCard
+              question="Mogu li da pratim nutritivne vrednosti?"
+              answer="Da, NutriPlan vam omogućava da pratite kalorije, vitamine, minerale i druge nutritivne vrednosti koje unosite tokom dana."
+            />
+          </div>
         </div>
       </div>
-    </div>
-
     </div>
   );
 }

@@ -1,0 +1,44 @@
+
+.recept-container {
+    transition: transform 0.3s ease, background-color 0.3s ease; 
+    cursor: pointer;
+    background-color: #fafafa; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.recept-container:hover {
+    transform: scale(1.05); 
+    background-color: #f4f4f4; 
+}
+
+.recept-container .font-semibold {
+    color: #333333; 
+}
+
+.recept-container:hover .font-semibold {
+    color: #333333; 
+}
+
+.detaljnije-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 8px 16px;
+    background-color: #66bb6a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.detaljnije-btn:hover {
+    background-color: #5a9e5a; 
+}
+
+
+.recept-container .px-3.py-2 {
+    background: linear-gradient(to right, #80e5a0, #66bb6a);
+}

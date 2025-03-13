@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\KorisnikResource;
 use App\Mail\HiUserMail;
 use App\Mail\PasswordResetMail;
 use App\Models\Korisnik;
@@ -73,7 +74,8 @@ class AuthController extends Controller
             "message" => "Dobrodosli " . $korisnik->ime . "!",
             "access_token" => $token,
             "token_type" => "Bearer",
-            "success" => true
+            "success" => true,
+            "korisnik" => new KorisnikResource($korisnik)
         ]);
     }
 

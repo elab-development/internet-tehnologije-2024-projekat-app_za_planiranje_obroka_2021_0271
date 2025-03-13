@@ -29,6 +29,8 @@ Route::post('/login',[AuthController::class, 'login']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 Route::resource('recepti',ReceptController::class);
+//Dodali smo novo
+Route::resource('preferencije', PreferencijeController::class)->only(['index']);
 //prebacili smo iznad ovu rutu
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
@@ -53,7 +55,8 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
     // });
 
     Route::patch('/korisnici/{id}/uloga', [AdminController::class, 'updateUserRole']);
-    Route::resource('preferencije',PreferencijeController::class);
+    //Preferncije kod admina treba da se dodaju (sta sve moze da radi sa njima)
+    //Route::resource('preferencije', PreferencijeController::class);
     Route::resource('korisnici',KorisnikContoller::class);
 });
 

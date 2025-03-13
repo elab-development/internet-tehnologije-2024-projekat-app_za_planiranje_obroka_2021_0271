@@ -1,8 +1,14 @@
 import { useState } from "react";
+import "../css/Recept.css"; 
+import { FaSpinner } from "react-icons/fa";
 
 const Recept = ({ recept }) => {
     if (!recept || !recept.naziv || !recept.opis) {
-        return <div>Učitavanje...</div>;
+        return (
+            <div className="loading-container">
+                <FaSpinner className="loading-icon" /> 
+            </div>
+        );
     }
 
     let skraceniOpis = recept.opis.length > 100 ? recept.opis.slice(0, 100) + "..." : recept.opis;
@@ -15,36 +21,16 @@ const Recept = ({ recept }) => {
     };
 
     return (
-        <div className="overflow-hidden w-full max-w-md shadow-lg bg-[#f9f9f9]">
-            <div
-                className="px-3 py-2 font-semibold text-lg"
-                style={{ background: "linear-gradient(to right,#5ab869,#66bb6a)" }}
-            >
+        <div className="recept-container overflow-hidden w-full max-w-md shadow-lg bg-[#f9f9f9]" style={{ position: "relative", margin: "10px 0" }}>
+            <div className="px-3 py-2 font-semibold text-lg" style={{ background: "linear-gradient(to right,#5ab869,#66bb6a)" }}>
                 {recept.naziv}
             </div>
-            <div
-                className="p-4"
-                style={{
-                    background: "linear-gradient(to right,rgb(238, 222, 168),rgb(248, 231, 175))", 
-                    position: "relative", 
-                }}
-            >
-                <p className="text-sm">{skraceniOpis}</p>
+            <div className="p-4 flex flex-col gap-4" style={{ background: "linear-gradient(to right,rgb(238, 222, 168),rgb(248, 231, 175))", position: "relative" }}>
+                <p className="text-sm px-5">{skraceniOpis}</p>
 
                 <button
                     onClick={handleButtonClick}
-                    style={{
-                        position: "absolute", 
-                        bottom: "10px", 
-                        right: "10px",  
-                        padding: "8px 16px",
-                        backgroundColor: "#66bb6a",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                        fontSize: "14px",
-                    }}
+                    className="detaljnije-btn"
                 >
                     Detaljnije
                 </button>

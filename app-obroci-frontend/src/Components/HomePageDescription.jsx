@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import { RiLeafFill, RiAlarmWarningFill, RiFileTextFill } from "react-icons/ri";
+import { RiLeafFill } from "react-icons/ri";
 
 function HomePageDescription({ title, content, icon }) {
   return (
@@ -40,7 +40,7 @@ function HomePageDescription({ title, content, icon }) {
         </h5>
       </Card.Body>
       <Card.Body>
-        <p
+        <div
           className="card-text"
           style={{
             color: "#66BB6A",
@@ -48,7 +48,7 @@ function HomePageDescription({ title, content, icon }) {
           }}
         >
           {content}
-        </p>
+        </div>
       </Card.Body>
 
       <style>
