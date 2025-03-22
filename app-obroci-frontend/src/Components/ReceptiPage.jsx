@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
 import { FaSpinner } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import Preferencije from "./Preferencije";
 
 const ReceptiPage = () => {
     const [recepti, setRecepti] = useState([]); 
@@ -15,6 +17,7 @@ const ReceptiPage = () => {
     const [preferencije, setPreferencije] = useState([]); 
     const [selectedPreferencije, setSelectedPreferencije] = useState([]); 
     const [searchTerm, setSearchTerm] = useState(""); 
+    const navigate = useNavigate();
 
     useEffect(() => {
         setLoading(true);
@@ -49,7 +52,6 @@ const ReceptiPage = () => {
                 selectedPreferencije.every((pref) => {
                     console.log("Checking preference:", pref);
     
-                 
                     if (pref === "1") { 
                         return recept.vegetarijanski === 1;
                     } else if (pref === "5") { 
@@ -69,8 +71,8 @@ const ReceptiPage = () => {
     
     return (
         <section>
-            <div className="d-flex justify-content-center align-items-center"
-                style={{ backgroundColor: "rgba(178, 246, 175, 0.8)", minHeight: "105vh", width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+            <div className="d-flex justify-content-center align-items-center sticky-search"
+                style={{ backgroundColor: "rgba(178, 246, 175, 0.8)", minHeight: "105vh", width: "100%", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
 
                 <div className="container mt-5">
                     <div className="row justify-content-center">
@@ -80,7 +82,8 @@ const ReceptiPage = () => {
                                 className="form-control" 
                                 placeholder="Pretraži recepte..."
                                 value={searchTerm} 
-                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onChange={(e) => setSearchTerm(e.target.value)   
+                                }
                             />
                         </div>
                     </div>
@@ -109,27 +112,36 @@ const ReceptiPage = () => {
                 <br /><br /><br /><br />
                 {limit < totalRecipes && (
                     <button onClick={() => setLimit((prev) => prev + 5)} 
-                        style={{ padding: "10px 20px", fontSize: "16px", backgroundColor: "#66bb6a", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}>
+                        style={{ padding: "10px 20px", fontSize: "16px", backgroundColor: "#66bb6a", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", marginBottom: "35px" }}>
                         Prikaži više
                     </button>
                 )}
 
-                {window.sessionStorage.getItem("auth_token") !== null && (
-                    <button type="button" className="btn btn-primary" 
-                        style={{ padding: "10px 20px", fontSize: "16px", backgroundColor: "#66bb6a", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", position: 'fixed', bottom: '40px', right: '40px', zIndex: 9999 }}>
-                        Dodaj recept
-                    </button>
-                )}
-
-                <div style={{ position: "absolute", top: "200px", left: "60px", backgroundColor: "#4CAF50", padding: "20px", borderRadius: "8px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", zIndex: 1000, maxHeight: "80vh", overflowY: "auto", color: "#fff" }}>
-                    <h5 style={{ color: "#fff" }}>Preferencije</h5>
-                    {preferencije.map((preferencija) => (
-                        <div key={preferencija.id} className="form-check">
-                            <input type="checkbox" className="form-check-input" value={preferencija.id} onChange={handlePreferenceChange} />
-                            <label className="form-check-label" style={{ color: "#fff" }}>{preferencija.naziv}</label>
-                        </div>
-                    ))}
-                </div>
+            {window.sessionStorage.getItem("auth_token") !== null && (
+            <button 
+                type="button" 
+                className="btn btn-primary" 
+                style={{ 
+                    padding: "10px 20px", 
+                    fontSize: "16px", 
+                    backgroundColor: "#66bb6a", 
+                    color: "white", 
+                    border: "none", 
+                    borderRadius: "5px", 
+                    cursor: "pointer", 
+                    position: 'fixed', 
+                    bottom: '40px', 
+                    right: '40px', 
+                    zIndex: 9999 
+                }}
+                onClick={() => navigate('/dodajRecept')}
+            >
+                Dodaj recept
+            </button>
+            )}
+            <div>
+                <Preferencije preferencije={preferencije} handlePreferenceChange={handlePreferenceChange} positionStyle={{ position: "absolute", top: "200px", left: "60px" }} title={"Preferencije"} />
+            </div>
             </div>
             <ToastContainer />
         </section>

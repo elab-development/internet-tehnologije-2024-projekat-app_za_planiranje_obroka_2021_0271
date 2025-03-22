@@ -19,6 +19,5 @@ class Namirnica_ReceptResource extends JsonResource
             'recept'=> new ReceptResource($this->resource->recept),
             'kolicina' => $this->resource->kolicina
         ];
-       
     }
 }

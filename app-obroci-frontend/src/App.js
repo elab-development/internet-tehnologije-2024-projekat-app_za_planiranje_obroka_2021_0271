@@ -11,6 +11,7 @@ import ResetPassword from './Components/ResetPassword';
 import ReceptiPage from './Components/ReceptiPage';
 import NavBar from './Components/NavBar';
 import ReceptiDetaljnijePage from './Components/ReceptiDetaljnijePage';
+import DodajReceptPage from './Components/DodajReceptPage';
 import Layout from './Components/Layout';
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/recepti" element={<ReceptiPage />} />
         <Route path="/recepti/:id" element={<ReceptiDetaljnijePage />} />
+        <Route path="/dodajRecept" element={<DodajReceptPage />} />
         <Route path="/obroci" element={<h1>Obroci Page</h1>} />
       </Route>
 
