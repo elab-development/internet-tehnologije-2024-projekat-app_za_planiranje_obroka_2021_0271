@@ -27,6 +27,7 @@ function LoginPage() {
         if (res.data.success === true) {
           window.sessionStorage.setItem("auth_token", res.data.access_token);
           window.sessionStorage.setItem("username", res.data.korisnik.korisnicko_ime);
+          window.sessionStorage.setItem("id", res.data.korisnik.id);
           navigate("/");
         }
       })

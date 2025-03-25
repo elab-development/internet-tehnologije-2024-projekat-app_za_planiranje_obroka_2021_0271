@@ -36,9 +36,13 @@ Route::resource('preferencije', PreferencijeController::class)->only(['index']);
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::resource('obroci',ObrokContoller::class);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::delete('/korisnici/{idKorisnik}/preferencije', [Korisnik_PreferencijeController::class, 'destroyAllForKorisnik']);
+    
+    Route::delete('/korisnici/{id}/alergije', [AlergijeController::class, 'destroyAllForKorisnik']);
     
     Route::resource('namirnice',NamirnicaContoller::class);
     Route::post('/korisnik_preferencije', [Korisnik_PreferencijeController::class,'store']);
+    
     Route::post('/alergije', [AlergijeController::class,'store']);
     Route::post('/namirnica_recept', [Namirnica_ReceptController::class,'store']);
     Route::patch('/recepti/{idRecept}/namirnice/{idNamirnica}', [Namirnica_ReceptController::class,'edit']);
@@ -46,6 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::delete('/korisnici/{idKorisnik}/namirnice/{idNamirnica}', [AlergijeController::class, 'destroy']);
     Route::delete('/recepti/{idRecept}/namirnice/{idNamirnica}', [Namirnica_ReceptController::class, 'destroy']);
     Route::get('/pretrazi-recepte', [ReceptController::class, 'pretrazi']);
+    Route::resource('korisnici',KorisnikContoller::class)->only(['show','update']);
 });
 
 
@@ -57,7 +62,10 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
     Route::patch('/korisnici/{id}/uloga', [AdminController::class, 'updateUserRole']);
     //Preferncije kod admina treba da se dodaju (sta sve moze da radi sa njima)
     //Route::resource('preferencije', PreferencijeController::class);
-    Route::resource('korisnici',KorisnikContoller::class);
+    
+    //Treba da se doda only, pa sve ostalo osim index. Za rutu korisnici
+    
+    //Route::resource('korisnici',KorisnikContoller::class);
 });
 
 

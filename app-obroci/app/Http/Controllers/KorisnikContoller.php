@@ -93,10 +93,32 @@ class KorisnikContoller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Korisnik $korisnik)
-    {
-        
+    public function update(Request $request, $id)
+{
+  
+    $validated = $request->validate([
+        'ime' => 'required|string|max:50',
+        'prezime' => 'required|string|max:50',
+        'email' => 'required|string|max:50|email',
+        'korisnicko_ime' => 'required|string|min:10|max:50',
+    ]);
+
+    
+    $korisnik = Korisnik::find($id);
+
+    if (is_null($korisnik)) {
+        return response()->json('Korisnik nije pronađen', 404);
     }
+
+   
+    $korisnik->ime = $validated['ime'];
+    $korisnik->prezime = $validated['prezime'];
+    $korisnik->email = $validated['email'];
+    $korisnik->korisnicko_ime = $validated['korisnicko_ime'];
+  
+    $korisnik->save();
+    return new KorisnikResource($korisnik);
+}
 
     /**
      * Remove the specified resource from storage.

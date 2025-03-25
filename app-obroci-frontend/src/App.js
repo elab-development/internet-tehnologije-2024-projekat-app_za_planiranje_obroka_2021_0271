@@ -13,6 +13,7 @@ import NavBar from './Components/NavBar';
 import ReceptiDetaljnijePage from './Components/ReceptiDetaljnijePage';
 import DodajReceptPage from './Components/DodajReceptPage';
 import Layout from './Components/Layout';
+import ProfilPage from './Components/ProfilPage';
 
 
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/recepti/:id" element={<ReceptiDetaljnijePage />} />
         <Route path="/dodajRecept" element={<DodajReceptPage />} />
         <Route path="/obroci" element={<h1>Obroci Page</h1>} />
+        <Route path="/profil" element={<ProfilPage/>} />
       </Route>
 
       <Route path="/login" element={<LoginPage />} />

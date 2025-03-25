@@ -18,6 +18,7 @@ const ReceptiPage = () => {
     const [selectedPreferencije, setSelectedPreferencije] = useState([]); 
     const [searchTerm, setSearchTerm] = useState(""); 
     const navigate = useNavigate();
+    
 
     useEffect(() => {
         setLoading(true);
@@ -140,7 +141,7 @@ const ReceptiPage = () => {
             </button>
             )}
             <div>
-                <Preferencije preferencije={preferencije} handlePreferenceChange={handlePreferenceChange} positionStyle={{ position: "absolute", top: "200px", left: "60px" }} title={"Preferencije"} />
+                <Preferencije preferencije={preferencije} handlePreferenceChange={handlePreferenceChange} positionStyle={{ position: "absolute", top: "200px", left: "60px" }} title={"Preferencije"} textColor={"#fff"} />
             </div>
             </div>
             <ToastContainer />

@@ -108,4 +108,18 @@ class Korisnik_PreferencijeController extends Controller
         else 
             return response()->json(['message' => 'Nije pronadjena preferencija za brisanje.'], 404);
     }
+
+
+    public function destroyAllForKorisnik($idKorisnik)
+{
+    // Brisanje svih preferencija za korisnika
+    $brojObrisanihRedova = Korisnik_Preferencije::where('korisnik_id', $idKorisnik)->delete();
+
+    // Proveravamo da li je bilo obrisanih redova
+    if ($brojObrisanihRedova > 0) {
+        return response()->json(['message' => 'Sve preferencije za korisnika su uspešno obrisane.']);
+    } else {
+        return response()->json(['message' => 'Nema preferencija za ovog korisnika.'], 404);
+    }
+}
 }

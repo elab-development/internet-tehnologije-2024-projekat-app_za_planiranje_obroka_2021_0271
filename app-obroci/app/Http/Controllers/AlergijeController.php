@@ -108,4 +108,18 @@ class AlergijeController extends Controller
         else 
             return response()->json(['message' => 'Nije pronadjena korisnikova alergija za brisanje.'], 404);
     }
+
+
+    public function destroyAllForKorisnik($idKorisnik)
+    {
+        // Brisanje svih preferencija za korisnika
+        $brojObrisanihRedova = Alergija::where('korisnik_id', $idKorisnik)->delete();
+    
+        // Proveravamo da li je bilo obrisanih redova
+        if ($brojObrisanihRedova > 0) {
+            return response()->json(['message' => 'Sve alergije za korisnika su uspešno obrisane.']);
+        } else {
+            return response()->json(['message' => 'Nema alergija za ovog korisnika.'], 404);
+        }
+    }
 }

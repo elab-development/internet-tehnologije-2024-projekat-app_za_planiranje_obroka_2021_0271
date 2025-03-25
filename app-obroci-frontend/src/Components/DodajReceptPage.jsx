@@ -125,7 +125,7 @@ function DodajReceptPage() {
 
     return ( //
         <section className="d-flex align-items-center justify-content-center" style={{ minHeight: "200vh", maxHeight: "200vh", backgroundColor: "rgba(178, 246, 175, 0.8)" }}>
-            <div className="card d-flex flex-row align-items-center justify-content-center" style={{ borderRadius: "1rem", width: "55vw", minHeight: "190vh", maxHeight: "190vh",  background: "rgb(204, 255, 255)"}}>
+            <div className="card d-flex flex-row align-items-center justify-content-center" style={{ borderRadius: "1rem", width: "55vw", minHeight: "190vh", maxHeight: "190vh",  background: "rgba(173, 216, 230, 1)"}}>
                
                 <div className="col-md-6 d-flex flex-column justify-content-center align-items-center p-3 text-center" style={{ position: "absolute", top: "3%"}}>
                 <h3 className="mb-3">Dodaj recept</h3>
@@ -220,7 +220,7 @@ function DodajReceptPage() {
                         maxHeight: "25vh",
                         textAlign: "left", 
                         minWidth: "25vw",
-                        maxWidth: "25vw" }} />
+                        maxWidth: "25vw" }}  textColor={"#fff"}/>
                     </div><br/>
                     <br/>
                     <button 
