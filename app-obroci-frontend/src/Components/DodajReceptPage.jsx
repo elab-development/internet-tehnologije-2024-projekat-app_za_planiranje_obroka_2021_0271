@@ -123,14 +123,23 @@ function DodajReceptPage() {
         namirnica.naziv.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    return ( //
-        <section className="d-flex align-items-center justify-content-center" style={{ minHeight: "200vh", maxHeight: "200vh", backgroundColor: "rgba(178, 246, 175, 0.8)" }}>
-            <div className="card d-flex flex-row align-items-center justify-content-center" style={{ borderRadius: "1rem", width: "55vw", minHeight: "190vh", maxHeight: "190vh",  background: "rgba(173, 216, 230, 1)"}}>
+    return ( 
+        <section className="d-flex align-items-center justify-content-center text-center" 
+        style={{ backgroundColor: "rgba(178, 246, 175, 0.8)" }}>
+            <div className="card d-flex flex-column align-items-center justify-content-center" 
+                style={{ 
+                    borderRadius: "1rem", 
+                    width: "55vw",  
+                    height: "auto", 
+                    background: "rgb(204, 255, 255)",
+                    marginTop: "5%",
+                    marginBottom: "5%"
+                }}>
                
-                <div className="col-md-6 d-flex flex-column justify-content-center align-items-center p-3 text-center" style={{ position: "absolute", top: "3%"}}>
-                <h3 className="mb-3">Dodaj recept</h3>
+                <div className="col-md-6 d-flex flex-column justify-content-center align-items-center p-3 text-center" style={{ }}>
+                <h3 className="mb-3" style={{marginTop: "7%"}}>Dodaj recept</h3>
 
-                <div className="mb-3 w-100">
+                <div className="mb-3 w-100" style={{marginTop: "4%"}}>
                     <label className="form-label">Naziv recepta</label>
                     <input 
                         type="text" 
@@ -226,7 +235,7 @@ function DodajReceptPage() {
                     <button 
                         type="button" 
                         className="btn btn-primary" 
-                        style={{ padding: "10px 20px", fontSize: "16px", backgroundColor: "#66bb6a", border: "none", borderRadius: "5px", cursor: "pointer", position: 'relative' }}
+                        style={{ padding: "10px 20px", fontSize: "16px", backgroundColor: "#66bb6a", border: "none", borderRadius: "5px", cursor: "pointer", position: 'relative', marginBottom: "6%" }}
                         onClick={addRecept}
                     >
                         Dodaj recept

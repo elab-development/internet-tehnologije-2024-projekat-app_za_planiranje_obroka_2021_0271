@@ -178,8 +178,9 @@ class ReceptController extends Controller
         });
     }
 
-   
-    $preferencije = $korisnik->preferencije->pluck('naziv')->toArray();
+    $preferencije = $korisnik->preferencije->pluck('naziv')->map(function ($item) {
+        return str_replace(' ', '_', $item);
+    })->toArray();
 
     if (!empty($preferencije)) {
         foreach ($preferencije as $preferencija) {

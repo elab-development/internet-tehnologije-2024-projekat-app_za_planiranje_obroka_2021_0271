@@ -24,7 +24,6 @@ function HomePage() {
           minHeight: "24vh",
           position: "relative", 
           zIndex: 0,
-          
         }}
       >
         <div
