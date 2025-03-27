@@ -15,6 +15,8 @@ import DodajReceptPage from './Components/DodajReceptPage';
 import Layout from './Components/Layout';
 import ProfilPage from './Components/ProfilPage';
 import DodajObrokPage from './Components/DodajObrokPage';
+import AdminPage from './Components/AdminPage';
+
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
         {/*OVO IZNAD JE IZMENJENO*/}
         <Route path="/obroci" element={<h1>Obroci Page</h1>} />
         <Route path="/profil" element={<ProfilPage/>} />
+        <Route path="/admin" element={<AdminPage/>} />
+
       </Route>
 
       <Route path="/login" element={<LoginPage />} />

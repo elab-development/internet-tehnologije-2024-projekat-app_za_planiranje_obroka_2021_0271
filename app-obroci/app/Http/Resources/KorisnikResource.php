@@ -22,7 +22,8 @@ class KorisnikResource extends JsonResource
             'ime'=>$this->resource->ime,
             'prezime'=>$this->resource->prezime,
             'email'=>$this->resource->email,
-            'korisnicko_ime'=>$this->resource->korisnicko_ime
+            'korisnicko_ime'=>$this->resource->korisnicko_ime,
+            'uloga'=>$this->resource->uloga
             
         ];
     }

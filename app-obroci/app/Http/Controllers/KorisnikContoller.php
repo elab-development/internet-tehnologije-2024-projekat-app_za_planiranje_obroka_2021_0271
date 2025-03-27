@@ -39,7 +39,8 @@ class KorisnikContoller extends Controller
         if ($request->has('email')) {
             $query->where('email', 'like', '%' . $request->email . '%');
         }
-    
+        
+        $query->orderBy('ime', 'asc')->orderBy('prezime', 'asc');
         // Paginacija (podrazumevano 10 po strani, ali može se menjati parametrom per_page)
         $korisnici = $query->paginate($request->get('per_page', 10));
 
@@ -126,7 +127,7 @@ class KorisnikContoller extends Controller
     public function destroy($id)
     {
         $korisnik = Korisnik::findOrFail($id);
-
+      
         $korisnik->delete();
 
         return response()->json(['Korisnik je uspesno obrisan.']);

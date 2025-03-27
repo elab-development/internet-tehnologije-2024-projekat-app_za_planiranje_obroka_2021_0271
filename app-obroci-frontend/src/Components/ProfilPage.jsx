@@ -10,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";  // Import stilova za Toastify
 import { CgAdd } from "react-icons/cg";
 import { CiCircleMinus } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import SideBar from "./SideBar";
+import SacuvajButton from "./SacuvajButton";
 
 
 function ProfilPage() {
@@ -23,6 +25,14 @@ function ProfilPage() {
     const [namirnice, setNamirnice] = useState([]);
     const [selectedNamirnice, setSelectedNamirnice] = useState([]);
     const [korisnikAlergije, setKorisnikAlergije] =  useState([]);;
+
+    const menuItems = [
+        { id: 1, label: "Moj profil", section: "profil", icon: CgProfile },
+        { id: 2, label: "Promeni podatke", section: "promeniPodatke", icon: AiFillEdit },
+        { id: 3, label: "Moje Preferencije", section: "preferencije", icon: AiOutlineReconciliation },
+        { id: 4, label: "Moje Alergije", section: "alergije", icon: MdOutlineNoFood }
+    ];
+
 
 
     const addNamirnica = (namirnica) => {
@@ -419,22 +429,7 @@ function ProfilPage() {
             }} 
         />      
         {/* Save Button */}
-        <button 
-            style={{
-                marginTop: '40px',
-                padding: '10px 20px',
-                fontSize: '16px',
-                color: '#fff',
-                backgroundColor: '#8c9c8e', // Boja koja se uklapa sa pozadinom
-                border: 'none',
-                borderRadius: '5px',
-                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-                cursor: 'pointer',
-            }}
-            onClick={handleSavePreferences}
-        >
-            Sačuvaj
-        </button>
+        <SacuvajButton tekst={'Sacuvaj'} clickFunction={handleSavePreferences} />
     </div>
 </div>
                 );
@@ -496,22 +491,7 @@ function ProfilPage() {
 </div>
         
         {/* Save Button */}
-        <button 
-            style={{
-                marginTop: '40px',
-                padding: '10px 20px',
-                fontSize: '16px',
-                color: '#fff',
-                backgroundColor: '#8c9c8e', // Boja koja se uklapa sa pozadinom
-                border: 'none',
-                borderRadius: '5px',
-                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-                cursor: 'pointer',
-            }}
-            onClick={handleSaveNamirnice}
-        >
-            Sačuvaj
-        </button>
+        <SacuvajButton tekst={'Sacuvaj'} clickFunction={handleSaveNamirnice} />
             </div>
             </div>
                 );
@@ -524,11 +504,11 @@ function ProfilPage() {
                     <div style={{ display: "flex", gap: "20px", marginBottom: "5px", marginTop: "50px" }}>
                         <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
                             <label htmlFor="ime" style={{ width: "20%", marginRight: '10px' }}>Ime:</label>
-                            <input type="text" id="ime" name="ime" style={{ width: "75%" }} value={korisnikCopy.ime} onChange={handleInputChange} />
+                            <input type="text" id="ime" name="ime" style={{ width: "75%" }} value={korisnikCopy?.ime || ""} onChange={handleInputChange} />
                         </div>
                         <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
                             <label htmlFor="prezime" style={{ width: "20%", marginRight: '10px' }}>Prezime:</label>
-                            <input type="text" id="prezime" name="prezime" style={{ width: "75%" }} value={korisnikCopy.prezime} onChange={handleInputChange} />
+                            <input type="text" id="prezime" name="prezime" style={{ width: "75%" }} value={korisnikCopy?.prezime || ""} onChange={handleInputChange} />
                         </div>
                     </div>
     
@@ -536,11 +516,11 @@ function ProfilPage() {
                     <div style={{ display: "flex", gap: "20px", marginBottom: "10px" }}>
                         <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
                             <label htmlFor="email" style={{ width: "20%", marginRight: '10px' }}>Email:</label>
-                            <input type="email" id="email" name="email" style={{ width: "75%" }} value={korisnikCopy.email} onChange={handleInputChange} />
+                            <input type="email" id="email" name="email" style={{ width: "75%" }} value={korisnikCopy?.email || ""} onChange={handleInputChange} />
                         </div>
                         <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
                             <label htmlFor="korisnickoIme" style={{ width: "20%", marginRight: '10px' }}>Korisničko ime:</label>
-                            <input type="text" id="korisnickoIme" name="korisnicko_ime" style={{ width: "75%" }} value={korisnikCopy.korisnicko_ime} onChange={handleInputChange} />
+                            <input type="text" id="korisnickoIme" name="korisnicko_ime" style={{ width: "75%" }} value={korisnikCopy?.korisnicko_ime || ""} onChange={handleInputChange} />
                         </div>
                     </div>
                     
@@ -576,38 +556,7 @@ function ProfilPage() {
         <div className="container-fluid" style={styles.container}>
             <div className="row">
                 {/* Sidebar */}
-                <div className="col-md-3 p-4" style={styles.sidebar}>
-                    <ul className="list-unstyled">
-                        <li 
-                            style={styles.sidebarItem}
-                            onClick={() => setSelectedSection("profil")}
-                        >
-                            Moj profil
-                            <CgProfile style={styles.icon} />
-                        </li>
-                        <li 
-                            style={styles.sidebarItem}
-                            onClick={() => setSelectedSection("promeniPodatke")}
-                        >
-                            Promeni podatke
-                            <AiFillEdit style={styles.icon} />
-                        </li>
-                        <li 
-                            style={styles.sidebarItem}
-                            onClick={() => setSelectedSection("preferencije")}
-                        >
-                            Moje Preferencije
-                            <AiOutlineReconciliation style={styles.icon} />
-                        </li>
-                        <li 
-                            style={styles.sidebarItem}
-                            onClick={() => setSelectedSection("alergije")}
-                        >
-                            Moje Alergije
-                            <MdOutlineNoFood style={styles.icon} />
-                        </li>
-                    </ul>
-                </div>
+                <SideBar menuItems={menuItems} setSelectedSection={setSelectedSection} />
 
                 {/* Main content */}
                 <div className="col-md-9 p-4" style={styles.mainContent}>
@@ -629,31 +578,7 @@ const styles = {
         backgroundColor: "rgba(178, 246, 175, 0.8)",
         minHeight: "100vh",
     },
-    sidebar: {
-        backgroundColor: "#2d8659", // Tamna zelena
-        boxShadow: "2px 0px 5px rgba(0,0,0,0.2)",
-        //borderRadius: "10px",
-        height: "100vh", // Sidebar sada pokriva celu visinu
-        paddingTop: "30px", // Dodato malo prostora na vrhu
-    },
-    sidebarItem: {
-        color: "#fff", // Početna boja teksta
-        fontSize: "18px",
-        padding: "12px 0",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        transition: "all 0.3s ease", // Glatka animacija
-    },
-    sidebarItemHover: {
-        backgroundColor: "#1e6e45", // Pozadina na hover
-        color: "#ffcc00", // Tekst boja na hover
-    },
-    icon: {
-        color: "#fff", // Početna boja ikona
-        fontSize: "20px", // Veličina ikona
-    },
+  
     mainContent: {
         backgroundColor: "#fff",
         borderRadius: "2px",

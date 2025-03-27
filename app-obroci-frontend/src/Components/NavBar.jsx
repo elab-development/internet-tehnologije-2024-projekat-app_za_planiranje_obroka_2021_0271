@@ -6,14 +6,29 @@ import axios from "axios";
 function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [korisnik, setKorisnik] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false); 
   const navigate = useNavigate();
 
 
   useEffect(() => {
     const token = window.sessionStorage.getItem("auth_token");
+    const korisnikId = window.sessionStorage.getItem("id");
+ 
     if (token) {
       setIsLoggedIn(true);
+      axios.get(`/api/korisnici/${korisnikId}`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    .then((response) => {
+        setKorisnik(response.data.korisnik);
+    })
+    .catch((error) => {
+        console.error("Greška pri dohvatanju podataka:", error);
+    });
       const storedUsername = window.sessionStorage.getItem("username");
       setUsername(storedUsername || "Korisnik");
     } else {
@@ -119,6 +134,10 @@ function NavBar() {
                 padding: "8px 0",
                 }}
                   >
+
+                <li>
+                {korisnik.uloga === "admin" ? <Link className="dropdown-item" to="/admin">Admin panel</Link> : null}
+                </li>
                 <li>
                 <Link className="dropdown-item" to="/profil">Moj Profil</Link>
                 </li>
