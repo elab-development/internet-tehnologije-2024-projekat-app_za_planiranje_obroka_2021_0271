@@ -33,11 +33,13 @@ class ObrokContoller extends Controller
 
     public function show($obrok_id)
     {
-        $obrok = Obrok::find($obrok_id);
-        if(is_null($obrok)){
-            return response()->json('Obrok nije pronadjen', 404 );
-        }
-        return new ObrokResource($obrok);
+        $obrok = Obrok::with('recept', 'korisnik')->find($obrok_id);
+
+    if (is_null($obrok)) {
+        return response()->json('Obrok nije pronađen', 404);
+    }
+
+    return new ObrokResource($obrok);
     }
     /**
      * Show the form for creating a new resource.
