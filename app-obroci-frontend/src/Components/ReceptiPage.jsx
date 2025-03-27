@@ -72,22 +72,18 @@ const ReceptiPage = () => {
     
     return (
         <section>
-            <div className="d-flex justify-content-center align-items-center sticky-search"
-                style={{ backgroundColor: "rgba(178, 246, 175, 0.8)", minHeight: "105vh", width: "100%", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+            <div className="d-flex align-items-center"
+                style={{ backgroundColor: "rgba(178, 246, 175, 0.8)", minHeight: "105vh", width: "100%", flexDirection: "column"}}>
 
-                <div className="container mt-5">
-                    <div className="row justify-content-center">
-                        <div className="col-md-6">
-                            <input 
-                                type="text" 
-                                className="form-control" 
-                                placeholder="Pretraži recepte..."
-                                value={searchTerm} 
-                                onChange={(e) => setSearchTerm(e.target.value)   
-                                }
-                            />
-                        </div>
-                    </div>
+                <div className="container col-md-3 mt-5">
+                    <input 
+                        type="text" 
+                        className="form-control" 
+                        placeholder="Pretraži recepte..."
+                        value={searchTerm} 
+                        onChange={(e) => setSearchTerm(e.target.value)   
+                        }
+                    />
                 </div>
 
                 <br /><br /><br />

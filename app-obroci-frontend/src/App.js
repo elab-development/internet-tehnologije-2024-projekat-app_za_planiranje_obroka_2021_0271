@@ -17,6 +17,7 @@ import ProfilPage from './Components/ProfilPage';
 import DodajObrokPage from './Components/DodajObrokPage';
 import AdminPage from './Components/AdminPage';
 
+import ObrociDetaljnijePage from './Components/ObrociDetaljnijePage';
 
 function App() {
   return (
@@ -27,10 +28,10 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/recepti" element={<ReceptiPage />} />
         <Route path="/recepti/:id" element={<ReceptiDetaljnijePage />} />
+        {/*LINIJA ISPOD JE DODATA */}
+        <Route path="/obroci/:id" element={<ObrociDetaljnijePage />} />
         <Route path="/dodajRecept" element={<DodajReceptPage />} />
-        {/*OVO ISPOD JE IZMENJENO*/}
         <Route path="/dodajObrok" element={<DodajObrokPage />} />
-        {/*OVO IZNAD JE IZMENJENO*/}
         <Route path="/obroci" element={<h1>Obroci Page</h1>} />
         <Route path="/profil" element={<ProfilPage/>} />
         <Route path="/admin" element={<AdminPage/>} />
