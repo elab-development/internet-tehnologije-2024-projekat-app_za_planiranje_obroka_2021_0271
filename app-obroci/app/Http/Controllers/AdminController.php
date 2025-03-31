@@ -36,18 +36,5 @@ class AdminController extends Controller
     ], 200);
     
     
-        //     dd('Reached this point'); // Proveri da li dolazi do ove linije
-
-    // $request->validate([
-    //     'uloga' => 'required|in:admin,user',
-    // ]);
-
-    // $korisnik = Korisnik::findOrFail($id);
-    // dd($korisnik); // Proveri da li korisnik postoji
-
-    // $korisnik->uloga = $request->uloga;
-    // $korisnik->save();
-
-    // return response()->json(['Poruka' => 'Uloga korisnika uspesno azurirana!']);
     }
 }

@@ -6,175 +6,39 @@ import { HiClipboardDocumentList } from "react-icons/hi2";
 import axios from 'axios';
 import { FaTrashAlt } from 'react-icons/fa';
 import SacuvajButton from './SacuvajButton';
+import NamirniceTable from './NamirniceTable';
+import KorisniciTable from './KorisniciTable';
+import PreferencijeTable from './PreferencijeTable';
+
 
 
 
 
 function AdminPage() {
      const [selectedSection, setSelectedSection] = useState("korisnici");
-     const [korisnici, setKorisnici] = useState([]);
-     const [initialKorisnici, setInitialKorisnici] = useState([]);
-
-    const menuItems = [
+        const menuItems = [
         { id: 1, label: "Upravljaj korisnicima", section: "korisnici", icon: FaUserCog },
         { id: 2, label: "Upravljaj namirnicama", section: "namirnice", icon:  MdFastfood},
         { id: 3, label: "Upravljaj preferencijama", section: "preferencije", icon: HiClipboardDocumentList }
-    ];
-
-    useEffect(() => {
-        const korisnikId = window.sessionStorage.getItem("id");
-        const authToken = window.sessionStorage.getItem("auth_token");
-
-        axios.get('/api/korisnici', {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${authToken}`,
-            },
-        })
-            .then(response => { 
-                console.log("KORISNICI");
-                console.log(response);
-                setKorisnici(response.data.korisnici); // Assuming the response has 'data' field with korisnici
-                setInitialKorisnici(response.data.korisnici);  
-            }).catch((error) => {
-                console.error("Greška pri dohvatanju korisnika:", error);
-            });;
-    }, []);
-
-
-    const handleDeleteKorisnik = (id, setKorisnici) => {
-        const authToken = window.sessionStorage.getItem("auth_token");
-      
-        axios.delete(`/api/korisnici/${id}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
-        })
-        .then(response => {
-         
-          setKorisnici(prevState => prevState.filter(korisnik => korisnik.id !== id));
-          alert("Korisnik je uspešno obrisan.");
-        })
-        .catch(error => {
-          console.error("Greška pri brisanju korisnika:", error);
-          alert("Došlo je do greške pri brisanju korisnika.");
-        });
-      };
-
-      const handleRoleChange = (id, newRole) => {
-        setKorisnici(prevKorisnici =>
-            prevKorisnici.map(korisnik =>
-                korisnik.id === id
-                    ? { ...korisnik, uloga: newRole }
-                    : korisnik
-            )
-        );
-    };
-
-    const handleSaveRoleChanges = () => {
-        const authToken = window.sessionStorage.getItem("auth_token");
-
-        // Filter only the users whose roles have changed
-        const changedUsers = korisnici.filter(korisnik => {
-            const originalUser = initialKorisnici.find(u => u.id === korisnik.id);
-            return originalUser && korisnik.uloga !== originalUser.uloga;
-        });
-
-        // If there are no changes, just return early
-        if (changedUsers.length === 0) {
-            alert('No changes made!');
-            return;
-        }
-
-        // Update the roles of users who have changed their roles
-        const requests = changedUsers.map(korisnik => {
-            return axios.patch(`/api/korisnici/${korisnik.id}/uloga`, { uloga: korisnik.uloga }, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${authToken}`,
-                },
-            });
-        });
-
-        // Wait for all requests to finish
-        Promise.all(requests)
-            .then(() => {
-                alert('Uloge korisnika su uspešno ažurirane!');
-            })
-            .catch(() => {
-                alert('Došlo je do greške pri ažuriranju uloga!');
-            });
-    };
-    
+        ];
 
     const renderSectionContent = () => {
         switch (selectedSection) {
             case "korisnici":
                 return <div style={styles.profileCard}>
                 <h3 className="text-center">Korisnici</h3>
-                <table className="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Ime</th>
-                            <th>Prezime</th>
-                            <th>Email</th>
-                            <th>Korisničko ime</th>
-                            <th>Uloga</th>
-                            <th>Obrisi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {korisnici.map(korisnik => (
-                        <tr key={korisnik.id}>
-                            <td>{korisnik.ime}</td>
-                            <td>{korisnik.prezime}</td>
-                            <td>{korisnik.email}</td>
-                            <td>{korisnik.korisnicko_ime}</td>
-                            <td>
-                                {/* Dropdown for changing role */}
-                                <select 
-                                    value={korisnik.uloga}
-                                    onChange={(e) => handleRoleChange(korisnik.id, e.target.value)}
-                                >
-                                    <option value="korisnik">Korisnik</option>
-                                    <option value="admin">Admin</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button 
-                                    className="btn btn-danger"
-                                    onClick={() => handleDeleteKorisnik(korisnik.id, setKorisnici)} 
-                                >
-                                    <FaTrashAlt /> {/* Trash icon */}
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-                <SacuvajButton tekst={'Sacuvaj izmene'} clickFunction={handleSaveRoleChanges} />
+                <KorisniciTable></KorisniciTable>
             </div>;
             case "namirnice":
                 return <div style={styles.profileCard}>
                 <h3 className="text-center">Namirnice</h3>
-             <table className="table table-bordered">
-                 <thead>
-                     <tr>
-                         <th>Naziv</th>
-                         <th>Broj kalorija</th>
-                         <th>Proteini</th>
-                         <th>Masti</th>
-                         <th>Ugljeni hidrati</th>
-                     </tr>
-                 </thead>
-                 <tbody>
-                     {/* Empty rows for now */}
-                 </tbody>
-             </table>
+          <NamirniceTable></NamirniceTable>
          </div>;
             case "preferencije":
-                return <div> PREFFF</div>;
+                return <div style={styles.profileCard}>
+                <h3 className="text-center">Preferencije</h3>
+                <PreferencijeTable></PreferencijeTable>
+         </div>;
             default:
                 return null;
         }

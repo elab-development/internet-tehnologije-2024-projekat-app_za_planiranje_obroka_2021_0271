@@ -60,6 +60,8 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
     // });
     Route::resource('korisnici',KorisnikContoller::class)->only(['index','destroy']);
     Route::patch('/korisnici/{id}/uloga', [AdminController::class, 'updateUserRole']);
+    Route::resource('preferencije', PreferencijeController::class)->only(['update','destroy']);
+
     //Preferncije kod admina treba da se dodaju (sta sve moze da radi sa njima)
     //Route::resource('preferencije', PreferencijeController::class);
     

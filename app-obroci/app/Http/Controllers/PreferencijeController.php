@@ -88,7 +88,7 @@ class PreferencijeController extends Controller
         Log::info('Updating preferencija:', ['preferencija' => $preferencija]);
 
         $validator = Validator::make($request->all(), [
-            'naziv' => 'required|string|max:255|in:veganski,vegetarijanski,bez_laktoze,bez_glutena,posno|unique:preferencije',
+            'naziv' => 'required|string|max:255|unique:preferencije',
         ]);
     
         if ($validator->fails()) {
