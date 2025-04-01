@@ -18,6 +18,7 @@ import DodajObrokPage from './Components/DodajObrokPage';
 import AdminPage from './Components/AdminPage';
 import ObrociDetaljnijePage from './Components/ObrociDetaljnijePage';
 import ObrociPage from './Components/ObrociPage';
+import BMICalculatorPage from './Components/BMICalculatorPage';
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
         <Route path="/obroci" element={<ObrociPage />} />
         <Route path="/profil" element={<ProfilPage/>} />
         <Route path="/admin" element={<AdminPage/>} />
+        <Route path="/BMICalculator" element={<BMICalculatorPage/>} />
+
 
       </Route>
 
