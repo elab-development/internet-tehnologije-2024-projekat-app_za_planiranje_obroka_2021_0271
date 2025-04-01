@@ -102,6 +102,7 @@ function NavBar() {
             <Link className="nav-link" to="/">Pocetna</Link>
             <Link className="nav-link" to="/recepti">Recepti</Link>
             <Link className="nav-link" to="/obroci">Obroci</Link>
+            <Link className="nav-link" to="/BMICalculator">BMI</Link>
           </div>
 
           

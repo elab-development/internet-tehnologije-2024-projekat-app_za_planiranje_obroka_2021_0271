@@ -49,7 +49,7 @@ class BMICalculatorController extends Controller
     
            
             $translatedResponse = [
-                'bmi' => $data['bmi'],
+                'bmi' => round($data['bmi'], 2),
                 'height_in_cm' => round($heightInCm, 2), 
                 'weight_in_kg' => round($weightInKg, 2),  
                 'bmiCategoryForAdults' => [
