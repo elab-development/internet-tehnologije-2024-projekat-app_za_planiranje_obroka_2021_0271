@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlergijeController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\BMICalculatorController;
 use App\Http\Controllers\Korisnik_PreferencijeController;
 use App\Http\Controllers\KorisnikContoller;
 use App\Http\Controllers\Namirnica_ReceptController;
@@ -29,9 +30,10 @@ Route::post('/login',[AuthController::class, 'login']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 Route::resource('recepti',ReceptController::class);
-//Dodali smo novo
 Route::resource('preferencije', PreferencijeController::class)->only(['index']);
-//prebacili smo iznad ovu rutu
+Route::post('/calculate-bmi', [BMICalculatorController::class, 'calculateBMI']);
+
+
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::resource('obroci',ObrokContoller::class);
