@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Recept from "./Recept";
 
@@ -24,7 +24,6 @@ function ObrociDetaljnijePage() {
             })
             .then((response) => {
                 setObrok(response.data.obrok);
-                console.log(response.data);
                 if (response.data.obrok && response.data.obrok.recept) {
                     setRecept(response.data.obrok.recept);
                 } else {
@@ -33,7 +32,7 @@ function ObrociDetaljnijePage() {
             })
             .catch((error) => {
                 console.error("Error fetching meal details:", error);
-                setError("An error occurred while fetching data.");
+                setError("Došlo je do greške prilikom učitavanja podataka.");
             })
             .finally(() => {
                 setLoading(false);
@@ -42,10 +41,10 @@ function ObrociDetaljnijePage() {
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
-    if (!obrok || !recept) return <div>No data available.</div>;
+    if (!obrok || !recept) return <div>Nema dostupnih podataka.</div>;
 
-  return (
-    <div
+    return (
+        <div
             className="min-h-screen flex justify-center"
             style={{
                 backgroundColor: 'rgba(178, 246, 175, 0.8)',
@@ -55,8 +54,11 @@ function ObrociDetaljnijePage() {
             }}
         >
             <section style={{ margin: '4% 25%' }}>
-                <div className="overflow-hidden w-full max-w-md shadow-lg">
+                <nav style={{ fontSize: "0.9rem", marginBottom: "20px" }}>
+                    <Link to="/">Početna</Link> &gt; <Link to="/obroci">Obroci</Link> &gt; <span>{recept.naziv}</span>
+                </nav>
 
+                <div className="overflow-hidden w-full max-w-md shadow-lg">
                     <div className="px-3 py-2 font-semibold text-3xl" style={{ background: 'linear-gradient(to right,#5ab869,#66bb6a)' }} >
                         <h1 className="text-center">{recept.naziv}</h1>
                     </div>
@@ -88,7 +90,6 @@ function ObrociDetaljnijePage() {
                             <div className="flex-column" style={{ borderRadius: "0rem", width: "95%", marginTop:"3%" }}>
                                 {loading ? (
                                     <div className="loading-container">
-                                        
                                         <p>Učitavanje...</p> 
                                     </div>
                                 ) : (
@@ -104,7 +105,7 @@ function ObrociDetaljnijePage() {
                 </div>
             </section>
         </div>
-  )
+    )
 }
 
-export default ObrociDetaljnijePage
+export default ObrociDetaljnijePage;

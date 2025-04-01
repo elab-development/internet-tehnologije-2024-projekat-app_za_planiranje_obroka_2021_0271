@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Recept from "./Recept";
 import { FaSpinner } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 
 function DodajObrokPage() {
     const location = useLocation();
@@ -13,10 +13,9 @@ function DodajObrokPage() {
     const mealOptions = ["dorucak", "rucak", "vecera", "uzina"];
     const [recepti, setRecepti] = useState([]);
     const [selectedRecept, setSelectedRecept] = useState([]);
-    const [totalRecipes, setTotalRecipes] = useState(0);
-    const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState("");
     const [usePreferencesFilter, setUsePreferencesFilter] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (location.state?.selectedDate) {
@@ -24,39 +23,26 @@ function DodajObrokPage() {
         }
     }, [location]);
 
-    const handleReceptClick = (recept) => {
-        setSelectedRecept(recept);
-    };
-
     useEffect(() => {
         setLoading(true);
         const route = usePreferencesFilter ? "api/pretrazi-recepte" : "api/recepti";
-
         const headers = usePreferencesFilter
-            ? {
-                  Authorization: `Bearer ${window.sessionStorage.getItem("auth_token")}`,
-                  Accept: "application/json",
-              }
+            ? { Authorization: `Bearer ${window.sessionStorage.getItem("auth_token")}` }
             : {};
 
-        axios
-            .get(route, { headers })
-            .then((response) => {
-                const data = usePreferencesFilter ? response.data : response.data.data;
-                const total = usePreferencesFilter ? 0 : response.data.meta.total;
-                setRecepti(data);
-                setTotalRecipes(total);
+        axios.get(route, { headers })
+            .then((res) => {
+                setRecepti(usePreferencesFilter ? res.data : res.data.data);
                 setLoading(false);
             })
-            .catch((error) => {
-                console.error("Error fetching recipes:", error);
+            .catch((err) => {
+                console.error("Error:", err);
                 setLoading(false);
             });
     }, [usePreferencesFilter]);
 
-    const handleCheckboxChange = (event) => {
-        setUsePreferencesFilter(event.target.checked);
-    };
+    const handleReceptClick = (recept) => setSelectedRecept(recept);
+    const handleCheckboxChange = (e) => setUsePreferencesFilter(e.target.checked);
 
     const addObrok = () => {
         if (!selectedMeal || !selectedDate || !selectedRecept) {
@@ -64,65 +50,37 @@ function DodajObrokPage() {
             return;
         }
 
-        const today = new Date().setHours(0, 0, 0, 0);
-        const selectedDateObj = new Date(selectedDate).setHours(0, 0, 0, 0);
+        const korisnikId = sessionStorage.getItem("id");
+        if (!korisnikId) return alert("Niste prijavljeni.");
 
-        if (selectedDateObj < today) {
-            alert("Ne možete dodati obrok za datum u prošlosti.");
-            return;
-        }
-
-        const korisnikId = window.sessionStorage.getItem("id");
-
-        if (!korisnikId) {
-            alert("Korisnički ID nije pronađen. Molimo vas da se prijavite ponovo.");
-            return;
-        }
-
-        axios
-            .post(
-                "api/obroci",
-                {
-                    datum: selectedDate,
-                    tip: selectedMeal,
-                    korisnik_id: korisnikId,
-                    recept_id: selectedRecept.id,
-                },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${window.sessionStorage.getItem("auth_token")}`,
-                    },
-                }
-            )
-            .then(() => {
-                alert("Obrok je uspešno dodat");
-
-                navigate("/obroci", {
-                    state: {
-                        newMeal: {
-                            date: selectedDate,
-                            type: selectedMeal,
-                            name: selectedRecept.naziv,
-                        },
-                    },
-                });
-            })
-            .catch((error) => {
-                console.error("Greška:", error);
-                const errorMessage =
-                    error.response?.data?.message || "Došlo je do greške pri dodavanju obroka.";
-                alert(errorMessage);
-            });
+        axios.post("api/obroci", {
+            datum: selectedDate,
+            tip: selectedMeal,
+            korisnik_id: korisnikId,
+            recept_id: selectedRecept.id,
+        }, {
+            headers: { Authorization: `Bearer ${sessionStorage.getItem("auth_token")}` }
+        })
+        .then(() => {
+            alert("Obrok je uspešno dodat");
+            navigate("/obroci");
+        })
+        .catch((err) => {
+            console.error("Greška:", err);
+            alert("Došlo je do greške pri dodavanju obroka.");
+        });
     };
 
     return (
-        <section className="d-flex align-items-center justify-content-center" style={{ backgroundColor: "rgba(178, 246, 175, 0.8)" }}>
+        <section className="d-flex align-items-center justify-content-center flex-column" style={{ backgroundColor: "rgba(178, 246, 175, 0.8)", paddingTop: "3%" }}>
+            <div style={{ width: "55vw", textAlign: "left", marginBottom: "1rem", fontSize: "0.9rem" }}>
+                <Link to="/">Početna</Link> &gt; <Link to="/obroci">Obroci</Link> &gt; <span>Dodaj obrok</span>
+            </div>
             <div className="card d-flex flex-column align-items-center justify-content-center"
-                style={{ borderRadius: "1rem", width: "55vw", height: "auto", background: "rgb(204, 255, 255)", marginTop: "5%", marginBottom: "5%" }}
-            >
+                style={{ borderRadius: "1rem", width: "55vw", background: "rgb(204, 255, 255)", marginBottom: "5%" }}>
+
                 <div className="col-md-6 d-flex flex-column p-3 text-center align-items-center justify-content-center">
-                    <h3 className="mb-3 w-100" style={{ marginTop: "8%" }}>Dodaj obrok</h3>
+                    <h3 className="mb-3 w-100" style={{ marginTop: "2%" }}>Dodaj obrok</h3>
 
                     <label className="form-label" style={{ marginTop: "8%" }}>Izaberi tip obroka</label>
                     <select
@@ -136,61 +94,41 @@ function DodajObrokPage() {
                         ))}
                     </select>
 
-                    <div className="d-flex flex-column align-items-start" style={{ marginTop: "5%", marginBottom: "5%", marginRight: "10%" }}>
-                        <div className="form-check mb-3">
-                            <input
-                                type="checkbox"
-                                className="form-check-input"
-                                id="filterByPreferences"
-                                checked={usePreferencesFilter}
-                                onChange={handleCheckboxChange}
-                            />
-                            <label className="form-check-label" htmlFor="filterByPreferences">
-                                Pretraži recepte samo po
-                                <a href="/profil" style={{ marginLeft: "5px", textDecoration: "underline", color: "blue" }}>
-                                    mojim preferencijama i alergijama
-                                </a>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div className="align-items-center justify-content-center">
-                        <label className="form-label">
-                            Datum obroka
+                    <div className="form-check mt-4">
+                        <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="filterByPreferences"
+                            checked={usePreferencesFilter}
+                            onChange={handleCheckboxChange}
+                        />
+                        <label className="form-check-label" htmlFor="filterByPreferences">
+                            Pretraži recepte po mojim <Link to="/profil">preferencijama</Link>
                         </label>
-                        <input
-                            type=""
-                            className="form-control text-center"
-                            value={new Date(selectedDate)
-                            .toLocaleDateString("sr-RS")
-                            .replace(/\.$/, "")        
-                            .replaceAll(".", "/")
-                            .replaceAll(" ", "")
-                            .replaceAll("/", ".")}
-                            disabled
-                            style={{ marginBottom: "20%", maxWidth: "132px" }}
-                        />
                     </div>
 
-                    <div style={{ marginBottom: "5%" }}>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Pretražite recepte..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
+                    <label className="form-label mt-4">Datum obroka</label>
+                    <input
+                        type="text"
+                        className="form-control text-center"
+                        value={selectedDate ? new Date(selectedDate).toLocaleDateString("sr-RS") : ""}
+                        disabled
+                    />
 
-                    <div className="flex-column" style={{ width: "100%", marginBottom: "8%" }}>
+                    <input
+                        type="text"
+                        className="form-control mt-4"
+                        placeholder="Pretraži recepte..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+
+                    <div className="w-100 mt-3" style={{ maxHeight: "200px", overflowY: "auto" }}>
                         {loading ? (
-                            <div>
-                                <FaSpinner className="loading-icon" />
-                                <p>Učitavanje...</p>
-                            </div>
+                            <div className="text-center"><FaSpinner className="loading-icon" /> Učitavanje...</div>
                         ) : (
                             recepti
-                                .filter(recept => recept.naziv.toLowerCase().includes(searchTerm.toLowerCase()))
+                                .filter(r => r.naziv.toLowerCase().includes(searchTerm.toLowerCase()))
                                 .slice(0, 5)
                                 .map((recept) => (
                                     <div
@@ -204,29 +142,12 @@ function DodajObrokPage() {
                         )}
                     </div>
 
-                    <div className="d-flex flex-column align-items-center justify-content-center">
-                        <label className="form-label">Odabrani recept:</label>
-                        <div
-                            className="p-2 text-center"
-                            style={{
-                                fontSize: "1.5rem",
-                                fontWeight: "bold",
-                                marginBottom: "15%",
-                                backgroundColor: "#f0f0f0",
-                                borderRadius: "5px",
-                                border: "2px solid #ccc",
-                            }}
-                        >
-                            {selectedRecept?.naziv || "Nije odabran recept"}
-                        </div>
+                    <label className="form-label mt-4">Odabrani recept:</label>
+                    <div className="p-2 text-center mb-4" style={{ backgroundColor: "#f0f0f0", borderRadius: "5px", border: "2px solid #ccc" }}>
+                        {selectedRecept?.naziv || "Nije odabran recept"}
                     </div>
 
-                    <button
-                        type="button"
-                        className="btn btn-primary"
-                        style={{ padding: "10px 20px", fontSize: "16px", backgroundColor: "#66bb6a", border: "none", borderRadius: "5px", cursor: "pointer", marginBottom: "8%" }}
-                        onClick={addObrok}
-                    >
+                    <button className="btn btn-success mb-4" onClick={addObrok}>
                         Dodaj obrok
                     </button>
                 </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const ReceptiDetaljnijePage = () => {
@@ -16,9 +16,8 @@ const ReceptiDetaljnijePage = () => {
                 setRecept(response.data.recept);
                 const namirniceResponse = await axios.get(`/api/recepti/${id}/namirnice`);
                 setNamirnice(namirniceResponse.data.data);
-                console.log(namirniceResponse.data)
             } catch (err) {
-                setError('An error occurred while fetching data.');
+                setError('Došlo je do greške prilikom preuzimanja podataka.');
             } finally {
                 setLoading(false);
             }
@@ -29,13 +28,12 @@ const ReceptiDetaljnijePage = () => {
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
-    if (!recept) return <div>No data available.</div>;
+    if (!recept) return <div>Nema dostupnih podataka.</div>;
 
     const broj_kalorija = namirnice.reduce((sum, namirnica) => sum + (namirnica.namirnica.broj_kalorija * namirnica.kolicina || 0), 0) / 100;
-    const proteini = namirnice.reduce((sum, namirnica) => sum + (namirnica.namirnica.proteini * namirnica.kolicina || 0), 0) / 100;;
-    const ugljeni_hidrati = namirnice.reduce((sum, namirnica) => sum + (namirnica.namirnica.ugljeni_hidrati * namirnica.kolicina || 0), 0) / 100;;
-    const masti = namirnice.reduce((sum, namirnica) => sum + (namirnica.namirnica.masti * namirnica.kolicina || 0), 0) / 100;;
-
+    const proteini = namirnice.reduce((sum, namirnica) => sum + (namirnica.namirnica.proteini * namirnica.kolicina || 0), 0) / 100;
+    const ugljeni_hidrati = namirnice.reduce((sum, namirnica) => sum + (namirnica.namirnica.ugljeni_hidrati * namirnica.kolicina || 0), 0) / 100;
+    const masti = namirnice.reduce((sum, namirnica) => sum + (namirnica.namirnica.masti * namirnica.kolicina || 0), 0) / 100;
 
     return (
         <div
@@ -48,9 +46,13 @@ const ReceptiDetaljnijePage = () => {
                 flexDirection: 'column'
             }}
         >
-            <section style={{ margin: '8% 25%' }}>
-                <div className="overflow-hidden w-full max-w-md shadow-lg">
+            <section style={{ margin: '4% 25%' }}>
+                {/* Breadcrumbs only added here without altering layout */}
+                <div style={{ marginBottom: "20px", fontSize: "0.9rem" }}>
+                    <Link to="/">Početna</Link> &gt; <Link to="/recepti">Recepti</Link> &gt; <span>{recept.naziv}</span>
+                </div>
 
+                <div className="overflow-hidden w-full max-w-md shadow-lg">
                     <div className="px-3 py-2 font-semibold text-3xl" style={{ background: 'linear-gradient(to right,#5ab869,#66bb6a)' }} >
                         <h1 className="text-center">{recept.naziv}</h1>
                     </div>
@@ -65,7 +67,6 @@ const ReceptiDetaljnijePage = () => {
                         <div className="pt-4 border-t border-gray-400">
                             <h2 className="text-xl font-semibold">Namirnice</h2>
                             <br/>
-                            
                             <ul>
                                 {namirnice.length > 0 ? (
                                     namirnice.map((namirnica) => (
@@ -115,16 +116,16 @@ const ReceptiDetaljnijePage = () => {
                                 <tbody>
                                     <tr>
                                     <td className="px-4 py-2" style={{ border: "2px solid #225522" }}>
-                                        {broj_kalorija}
+                                        {broj_kalorija.toFixed(1)}
                                     </td>
                                     <td className="px-4 py-2" style={{ border: "2px solid #225522" }}>
-                                        {proteini}
+                                        {proteini.toFixed(1)}
                                     </td>
                                     <td className="px-4 py-2" style={{ border: "2px solid #225522" }}>
-                                        {ugljeni_hidrati}
+                                        {ugljeni_hidrati.toFixed(1)}
                                     </td>
                                     <td className="px-4 py-2" style={{ border: "2px solid #225522" }}>
-                                        {masti}
+                                        {masti.toFixed(1)}
                                     </td>
                                     </tr>
                                 </tbody>

@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/Recept.css"; 
 import { FaSpinner } from "react-icons/fa";
 
 const Recept = ({ recept }) => {
+    const navigate = useNavigate();
+
     if (!recept || !recept.naziv || !recept.opis) {
         return (
             <div className="loading-container">
@@ -14,10 +16,7 @@ const Recept = ({ recept }) => {
     let skraceniOpis = recept.opis.length > 100 ? recept.opis.slice(0, 100) + "..." : recept.opis;
 
     const handleButtonClick = () => {
-        const newTab = window.open(`/recepti/${recept.id}`, "_blank");
-        if (newTab) {
-            newTab.focus();
-        }
+        navigate(`/recepti/${recept.id}`);
     };
 
     return (
