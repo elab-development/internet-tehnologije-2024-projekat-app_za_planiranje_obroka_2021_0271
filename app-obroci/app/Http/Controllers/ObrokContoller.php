@@ -135,4 +135,6 @@ class ObrokContoller extends Controller
 
         return response()->json(['Obrok je uspesno obrisan.']);
     }
+
+
 }

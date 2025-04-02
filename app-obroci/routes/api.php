@@ -53,6 +53,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::delete('/recepti/{idRecept}/namirnice/{idNamirnica}', [Namirnica_ReceptController::class, 'destroy']);
     Route::get('/pretrazi-recepte', [ReceptController::class, 'pretrazi']);
     Route::resource('korisnici',KorisnikContoller::class)->only(['show','update']);
+
 });
 
 
