@@ -3,7 +3,8 @@ import useRecepti from './useRecepti';
 import { FaTrashAlt } from 'react-icons/fa';
 function ReceptiTable() {
     const {
-       recepti
+       recepti,
+       handleDeleteRecept
     } = useRecepti ();
   return (
     <div>
@@ -23,7 +24,7 @@ function ReceptiTable() {
                                 <td>
                                      <button 
                                         className="btn btn-danger"
-                                            // onClick={() => handleDeleteRecept(preferencija.id)} 
+                                            onClick={() => handleDeleteRecept(recept.id)} 
                                             >
                                             <FaTrashAlt /> {/* Trash icon */}
                                         </button>
