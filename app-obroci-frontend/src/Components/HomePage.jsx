@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { RiLeafFill, RiAlarmWarningFill, RiFileTextFill } from "react-icons/ri"; // Icons
 import banerPhoto from "../Images/welcome.png";
 import cookingPhoto from "../Images/cooking.jpeg";
@@ -9,6 +9,20 @@ import { RiQuestionAnswerFill } from "react-icons/ri";
 import { FaQuestion } from "react-icons/fa";
 
 function HomePage() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
+  useEffect(() => {
+    const token = window.sessionStorage.getItem("auth_token");
+    const username = window.sessionStorage.getItem("username");
+    if(token){
+      setIsLoggedIn(true);
+      setUsername(username);
+    }else{
+      setIsLoggedIn(false);
+      setUsername("");
+
+    }
+  }, []);
   return (
     <div
       style={{
@@ -26,6 +40,7 @@ function HomePage() {
           zIndex: 0,
         }}
       >
+
         <div
           style={{
             position: "absolute",
@@ -36,41 +51,53 @@ function HomePage() {
             borderRadius: "10px",
           }}
         >
-          <h2
-            style={{
-              fontSize: "min(4vw, 5vh)",
-              fontWeight: "bold",
-              textShadow: "2px 2px 5px rgba(0, 0, 0, 2)", 
-            }}
-          >
-            Prijavi se da počneš da planiraš svoje obroke!
-          </h2>
-          <p
-            style={{
-              fontSize: "1.2em",
-              textShadow: "1px 1px 3px rgba(0, 0, 0, 2)", 
-            }}
-          >
-            Planiraj, prati i unapredi svoju ishranu uz NutriPlan.
-          </p>
-          <Link to="/login">
-            <button
-              style={{
-                padding: "12px 24px",
-                fontSize: "1.2em",
-                backgroundColor: "#388E3C", 
-                border: "none",
-                color: "#fff",
-                borderRadius: "8px",
-                cursor: "pointer",
-                transition: "background-color 0.3s ease",
-              }}
-              onMouseEnter={(e) => (e.target.style.backgroundColor = "#2C6F2A")}
-              onMouseLeave={(e) => (e.target.style.backgroundColor = "#388E3C")}
-            >
-              Prijavi se
-            </button>
-          </Link>
+
+{isLoggedIn ? (
+  <h2  style={{
+    fontSize: "min(4vw, 5vh)",
+    fontWeight: "bold",
+    textShadow: "2px 2px 5px rgba(0, 0, 0, 2)", 
+  }}>Dobrodošli {username}!</h2>
+) : (
+  <div>
+    <h2
+      style={{
+        fontSize: "min(4vw, 5vh)",
+        fontWeight: "bold",
+        textShadow: "2px 2px 5px rgba(0, 0, 0, 2)", 
+      }}
+    >
+      Prijavi se da počneš da planiraš svoje obroke!
+    </h2>
+    <p
+      style={{
+        fontSize: "1.2em",
+        textShadow: "1px 1px 3px rgba(0, 0, 0, 2)", 
+      }}
+    >
+      Planiraj, prati i unapredi svoju ishranu uz NutriPlan.
+    </p>
+    <Link to="/login">
+      <button
+        style={{
+          padding: "12px 24px",
+          fontSize: "1.2em",
+          backgroundColor: "#388E3C", 
+          border: "none",
+          color: "#fff",
+          borderRadius: "8px",
+          cursor: "pointer",
+          transition: "background-color 0.3s ease",
+        }}
+        onMouseEnter={(e) => (e.target.style.backgroundColor = "#2C6F2A")}
+        onMouseLeave={(e) => (e.target.style.backgroundColor = "#388E3C")}
+      >
+        Prijavi se
+      </button>
+    </Link>
+  </div>
+)}
+
         </div>
       </div>
 
