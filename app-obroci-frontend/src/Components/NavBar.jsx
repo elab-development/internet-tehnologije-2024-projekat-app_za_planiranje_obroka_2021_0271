@@ -101,9 +101,17 @@ function NavBar() {
           <div className="navbar-nav">
             <Link className="nav-link" to="/">Pocetna</Link>
             <Link className="nav-link" to="/recepti">Recepti</Link>
-            <Link className="nav-link" to="/obroci">Obroci</Link>
-            <Link className="nav-link" to="/BMICalculator">BMI</Link>
+            {isLoggedIn ? (
+             <Link className="nav-link" to="/obroci">Obroci</Link>
+            ) : (
+              <Link className="nav-link" to="/login">Obroci</Link>
+            )}
           </div>
+            <Link className="nav-link" to="/BMICalculator">BMI</Link>
+
+
+
+          
 
           
           <div className="navbar-nav ms-auto">
