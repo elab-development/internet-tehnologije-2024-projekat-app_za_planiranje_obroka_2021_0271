@@ -9,6 +9,9 @@ import SacuvajButton from './SacuvajButton';
 import NamirniceTable from './NamirniceTable';
 import KorisniciTable from './KorisniciTable';
 import PreferencijeTable from './PreferencijeTable';
+import { RiFilePaper2Fill } from "react-icons/ri";
+import ReceptiTable from './ReceptiTable';
+
 
 
 
@@ -19,8 +22,10 @@ function AdminPage() {
         const menuItems = [
         { id: 1, label: "Upravljaj korisnicima", section: "korisnici", icon: FaUserCog },
         { id: 2, label: "Upravljaj namirnicama", section: "namirnice", icon:  MdFastfood},
-        { id: 3, label: "Upravljaj preferencijama", section: "preferencije", icon: HiClipboardDocumentList }
-        ];
+        { id: 3, label: "Upravljaj preferencijama", section: "preferencije", icon: HiClipboardDocumentList },
+        { id: 4, label: "Upravljaj receptima", section: "recepti", icon: RiFilePaper2Fill  }
+        
+    ];
 
     const renderSectionContent = () => {
         switch (selectedSection) {
@@ -39,6 +44,13 @@ function AdminPage() {
                 <h3 className="text-center">Preferencije</h3>
                 <PreferencijeTable></PreferencijeTable>
          </div>;
+
+            case "recepti":
+                return <div style={styles.profileCard}>
+                <h3 className="text-center">Recepti</h3>
+                <ReceptiTable></ReceptiTable>
+            </div>;
+         
             default:
                 return null;
         }
