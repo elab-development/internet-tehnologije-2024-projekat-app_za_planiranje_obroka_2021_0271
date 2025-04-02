@@ -1,37 +1,33 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-function Obrok({ tip, recept }) {
+const Obrok = ({ tip, recept }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (recept?.id) {
-      navigate(`/recepti/${recept.id}`);
-    }
+    navigate(`/recepti/${recept.id}`, {
+      state: { fromObroci: true },
+    });
   };
-
-  if (!recept) return null;
 
   return (
     <div
       onClick={handleClick}
-      className="cursor-pointer overflow-hidden shadow-md hover:shadow-lg transition-transform duration-200"
       style={{
-        background: 'linear-gradient(to right, rgb(238, 222, 168), rgb(248, 231, 175))',
-        borderRadius: '12px',
-        padding: '10px 15px',
-        margin: '8px auto',
-        maxWidth: '280px',
-        fontSize: '0.9rem',
-        fontWeight: '500',
-        textAlign: 'center',
-        cursor: 'pointer',
+        backgroundColor: "#fbe9a9",
+        borderRadius: "8px",
+        padding: "8px",
+        cursor: "pointer",
       }}
     >
-      <div>Tip: {tip}</div>
-      <div>Recept: {recept.naziv}</div>
+      <p>
+        <strong>Tip:</strong> {tip}
+      </p>
+      <p>
+        <strong>Recept:</strong> {recept.naziv}
+      </p>
     </div>
   );
-}
+};
 
 export default Obrok;
