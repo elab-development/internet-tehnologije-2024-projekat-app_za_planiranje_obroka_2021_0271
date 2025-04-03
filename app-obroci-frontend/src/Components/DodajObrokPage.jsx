@@ -12,7 +12,7 @@ function DodajObrokPage() {
     const [selectedMeal, setSelectedMeal] = useState("");
     const mealOptions = ["dorucak", "rucak", "vecera", "uzina"];
     const [recepti, setRecepti] = useState([]);
-    const [selectedRecept, setSelectedRecept] = useState([]);
+    const [selectedRecept, setSelectedRecept] = useState(null);
     const [selectedDate, setSelectedDate] = useState("");
     const [usePreferencesFilter, setUsePreferencesFilter] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -24,21 +24,36 @@ function DodajObrokPage() {
     }, [location]);
 
     useEffect(() => {
-        setLoading(true);
-        const route = usePreferencesFilter ? "api/pretrazi-recepte" : "api/recepti";
-        const headers = usePreferencesFilter
-            ? { Authorization: `Bearer ${window.sessionStorage.getItem("auth_token")}` }
-            : {};
+        const fetchAllRecepti = async () => {
+            try {
+                setLoading(true);
+                const route = usePreferencesFilter ? "api/pretrazi-recepte" : "api/recepti";
+                const headers = usePreferencesFilter
+                    ? { Authorization: `Bearer ${window.sessionStorage.getItem("auth_token")}` }
+                    : {};
 
-        axios.get(route, { headers })
-            .then((res) => {
-                setRecepti(usePreferencesFilter ? res.data : res.data.data);
+                let allRecepti = [];
+                let page = 1;
+                let lastPage = 1;
+
+                do {
+                    const res = await axios.get(`${route}?page=${page}`, { headers });
+                    const data = usePreferencesFilter ? res.data : res.data.data;
+                    const meta = usePreferencesFilter ? null : res.data.meta;
+                    lastPage = meta?.last_page || 1;
+                    allRecepti.push(...data);
+                    page++;
+                } while (page <= lastPage);
+
+                setRecepti(allRecepti);
                 setLoading(false);
-            })
-            .catch((err) => {
-                console.error("Error:", err);
+            } catch (error) {
+                console.error("Greška prilikom dohvata svih recepata:", error);
                 setLoading(false);
-            });
+            }
+        };
+
+        fetchAllRecepti();
     }, [usePreferencesFilter]);
 
     const handleReceptClick = (recept) => setSelectedRecept(recept);
@@ -71,8 +86,12 @@ function DodajObrokPage() {
         });
     };
 
+    const filteredRecepti = recepti.filter(r =>
+        r.naziv.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
-        <section className="d-flex align-items-center justify-content-center flex-column" style={{ backgroundColor: "rgba(178, 246, 175, 0.8)", paddingTop: "3%" }}>
+        <section className="d-flex align-items-center justify-content-center flex-column" style={{ backgroundColor: "rgba(178, 246, 175, 0.8)", minHeight: "100vh" }}>
             <div style={{ width: "55vw", textAlign: "left", marginBottom: "1rem", fontSize: "0.9rem" }}>
                 <Link to="/">Početna</Link> &gt; <Link to="/obroci">Obroci</Link> &gt; <span>Dodaj obrok</span>
             </div>
@@ -123,22 +142,19 @@ function DodajObrokPage() {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
 
-                    <div className="w-100 mt-3" style={{ maxHeight: "200px", overflowY: "auto" }}>
+                    <div className="w-100 mt-3" style={{ maxHeight: "300px", overflowY: "auto" }}>
                         {loading ? (
                             <div className="text-center"><FaSpinner className="loading-icon" /> Učitavanje...</div>
                         ) : (
-                            recepti
-                                .filter(r => r.naziv.toLowerCase().includes(searchTerm.toLowerCase()))
-                                .slice(0, 5)
-                                .map((recept) => (
-                                    <div
-                                        key={recept.id}
-                                        onClick={() => handleReceptClick(recept)}
-                                        style={{ cursor: "pointer", background: selectedRecept.id === recept.id ? "#c8e6c9" : "white" }}
-                                    >
-                                        <Recept recept={recept} />
-                                    </div>
-                                ))
+                            filteredRecepti.map((recept) => (
+                                <div
+                                    key={recept.id}
+                                    onClick={() => handleReceptClick(recept)}
+                                    style={{ cursor: "pointer", background: selectedRecept?.id === recept.id ? "#c8e6c9" : "white" }}
+                                >
+                                    <Recept recept={recept} />
+                                </div>
+                            ))
                         )}
                     </div>
 

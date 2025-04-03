@@ -38,7 +38,7 @@ function RegisterPage() {
         closeButton: true,
         theme: "colored",
         style: {
-          backgroundColor: "#f44336", // Crvena pozadina za grešku
+          backgroundColor: "#f44336",
           color: "white",
           borderRadius: "8px",
           padding: "10px"
@@ -58,7 +58,7 @@ function RegisterPage() {
             closeButton: true,
             theme: "colored",
             style: {
-              backgroundColor: "#4caf50", // Zeleno za uspeh
+              backgroundColor: "#4caf50", 
               color: "white",
               borderRadius: "8px",
               padding: "10px"
@@ -77,7 +77,7 @@ function RegisterPage() {
             closeButton: true,
             theme: "colored",
             style: {
-              backgroundColor: "#f44336", // Crvena pozadina za grešku
+              backgroundColor: "#f44336",
               color: "white",
               borderRadius: "8px",
               padding: "10px"
@@ -94,7 +94,7 @@ function RegisterPage() {
           closeButton: true,
           theme: "colored",
           style: {
-            backgroundColor: "#f44336", // Crvena pozadina za grešku
+            backgroundColor: "#f44336",
             color: "white",
             borderRadius: "8px",
             padding: "10px"
