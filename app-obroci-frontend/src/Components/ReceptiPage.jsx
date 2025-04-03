@@ -2,7 +2,7 @@ import axios from "axios";
 import Recept from "./Recept";
 import { useState, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; 
+import "react-toastify/dist/ReactToastify.css";
 import { FaSpinner } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Preferencije from "./Preferencije";
@@ -14,6 +14,7 @@ const ReceptiPage = () => {
     const [selectedPreferencije, setSelectedPreferencije] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [isMobile, setIsMobile] = useState(false);
     const receptiPerPage = 5;
     const navigate = useNavigate();
 
@@ -44,6 +45,11 @@ const ReceptiPage = () => {
 
         axios.get("api/preferencije")
             .then((res) => setPreferencije(res.data.data));
+
+        const checkIfMobile = () => setIsMobile(window.innerWidth <= 768);
+        checkIfMobile();
+        window.addEventListener("resize", checkIfMobile);
+        return () => window.removeEventListener("resize", checkIfMobile);
     }, []);
 
     const handlePreferenceChange = (event) => {
@@ -78,7 +84,12 @@ const ReceptiPage = () => {
     return (
         <section>
             <div className="d-flex align-items-center"
-                style={{ backgroundColor: "rgba(178, 246, 175, 0.8)", minHeight: "105vh", width: "100%", flexDirection: "column" }}>
+                style={{
+                    backgroundColor: "rgba(178, 246, 175, 0.8)",
+                    minHeight: "100vh",
+                    width: "100%",
+                    flexDirection: "column"
+                }}>
 
                 <div className="container col-md-3 mt-5">
                     <input
@@ -149,15 +160,20 @@ const ReceptiPage = () => {
                         Dodaj recept
                     </button>
                 )}
-                <div>
+
+                {preferencije.length > 0 && (
                     <Preferencije
                         preferencije={preferencije}
                         handlePreferenceChange={handlePreferenceChange}
-                        positionStyle={{ position: "absolute", top: "200px", left: "60px" }}
+                        positionStyle={
+                            isMobile
+                                ? { position: "absolute", bottom: "26.5%", left: "1.5%", zIndex: 999 }
+                                : { position: "absolute", top: "24.5%", left: "4%" }
+                        }
                         title={"Preferencije"}
                         textColor={"#fff"}
                     />
-                </div>
+                )}
             </div>
             <ToastContainer />
         </section>

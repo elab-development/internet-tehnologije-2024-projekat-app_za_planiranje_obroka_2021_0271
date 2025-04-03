@@ -47,10 +47,7 @@ const ObrociPage = () => {
   const fetchData = async () => {
     const token = window.sessionStorage.getItem("auth_token");
     const userId = window.sessionStorage.getItem("id");
-    if (!token || !userId) {
-      console.error("Korisnik nije prijavljen.");
-      return;
-    }
+    if (!token || !userId) return;
 
     try {
       const obrociRes = await axios.get("/api/obroci", {
@@ -140,10 +137,7 @@ const ObrociPage = () => {
 
   const handleDeleteMeal = async (mealId, dayKey) => {
     const token = window.sessionStorage.getItem("auth_token");
-    if (!token) {
-      console.error("Korisnik nije prijavljen.");
-      return;
-    }
+    if (!token) return;
 
     try {
       await axios.delete(`/api/obroci/${mealId}`, {
@@ -206,25 +200,34 @@ const ObrociPage = () => {
                 >
                   {meals[day.key]?.length > 0 ? (
                     meals[day.key].map((meal) => (
-                      <div key={meal.id} style={{ position: "relative", marginBottom: "10px" }}>
-                        <Obrok tip={meal.type} recept={meal.recept} />
-                        <FaTrashAlt
-                          onClick={() => {
-                            const confirmed = window.confirm("Da li ste sigurni da želite da obrišete ovaj obrok?");
-                            if (confirmed) {
-                              handleDeleteMeal(meal.id, day.key);
-                            }
-                          }}
-                          style={{
-                            position: "absolute",
-                            top: "50%",
-                            right: "8px",
-                            transform: "translateY(-50%)",
-                            cursor: "pointer",
-                            color: "red",
-                            fontSize: "1.6rem",
-                          }}
-                        />
+                      <div
+                        key={meal.id}
+                        style={{
+                          position: "relative",
+                          marginBottom: "10px",
+                        }}
+                      >
+                        <div style={{ position: "relative" }}>
+                          <div style={{ position: "relative" }}>
+                            <Obrok tip={meal.type} recept={meal.recept} />
+                            <FaTrashAlt
+                              onClick={() => {
+                                const confirmed = window.confirm("Da li ste sigurni da želite da obrišete ovaj obrok?");
+                                if (confirmed) {
+                                  handleDeleteMeal(meal.id, day.key);
+                                }
+                              }}
+                              style={{
+                                position: "absolute",
+                                bottom: "8px",
+                                right: "8px",
+                                cursor: "pointer",
+                                color: "red",
+                                fontSize: "1.3rem",
+                              }}
+                            />
+                          </div>
+                        </div>
                       </div>
                     ))
                   ) : (
@@ -249,36 +252,37 @@ const ObrociPage = () => {
           </tr>
         </tbody>
       </table>
+
       <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
-  <button 
-    onClick={() => {
-      if (!shoppingList) return;
+        <button
+          onClick={() => {
+            if (!shoppingList) return;
 
-      const confirmed = window.confirm(
-        "Da li zelite da preuzmete tekstualni fajl liste za kupovinu za Vase obroke u sledecih 7 dana?"
-      );
-      if (!confirmed) return;
+            const confirmed = window.confirm(
+              "Da li zelite da preuzmete tekstualni fajl liste za kupovinu za Vase obroke u sledecih 7 dana?"
+            );
+            if (!confirmed) return;
 
-      const content = shoppingList.split(", ").join("\n");
-      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "lista_za_kupovinu.txt";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }}
-    className="btn btn-success"
-    style={{
-      padding: "12px 24px",
-      backgroundColor: "#66bb6a",
-      border: "none",
-      borderRadius: "8px",
-      }}
-    >
-    Napravi listu za kupovinu
-  </button>
-  </div>
+            const content = shoppingList.split(", ").join("\n");
+            const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "lista_za_kupovinu.txt";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }}
+          className="btn btn-success"
+          style={{
+            padding: "12px 24px",
+            backgroundColor: "#66bb6a",
+            border: "none",
+            borderRadius: "8px",
+          }}
+        >
+          Napravi listu za kupovinu
+        </button>
+      </div>
     </div>
   );
 };
