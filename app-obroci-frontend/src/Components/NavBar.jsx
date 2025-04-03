@@ -106,8 +106,9 @@ function NavBar() {
             ) : (
               <Link className="nav-link" to="/login">Obroci</Link>
             )}
-          </div>
             <Link className="nav-link" to="/BMICalculator">BMI</Link>
+          </div>
+            
 
 
 
