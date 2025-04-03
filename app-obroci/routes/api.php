@@ -61,6 +61,8 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
     // Route::get('/admin/dashboard', function () {
     //     return response()->json(['message' => 'Dobrodosli, Admine!']);
     // });
+    Route::delete('/obroci/korisnici/{korisnik_id}', [ObrokContoller::class, 'destroyByKorisnikId']);
+    Route::delete('/obroci/recepti/{recept_id}', [ObrokContoller::class, 'destroyByReceptId']);
     Route::resource('korisnici',KorisnikContoller::class)->only(['index','destroy']);
     Route::patch('/korisnici/{id}/uloga', [AdminController::class, 'updateUserRole']);
     Route::resource('preferencije', PreferencijeController::class)->only(['update','destroy']);

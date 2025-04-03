@@ -24,6 +24,18 @@ const useKorisnici = () => {
     const deleteKorisnik = (id) => {
         const authToken = window.sessionStorage.getItem("auth_token");
 
+        axios.delete(`/api/obroci/korisnici/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`,
+            },
+        })
+        .then(() => {
+            alert("Obroci korisnika uspesno obrisani.");
+        })
+        .catch(() => alert("Došlo je do greške pri brisanju obroka korisnika."));
+    
+
         axios.delete(`/api/korisnici/${id}`, {
             headers: {
                 "Content-Type": "application/json",

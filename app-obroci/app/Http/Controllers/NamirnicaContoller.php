@@ -52,7 +52,7 @@ class NamirnicaContoller extends Controller
 
         $query->orderBy('naziv', 'asc');
     
-        $namirnice = $query->paginate($request->get('per_page', 10));
+        $namirnice = $query->get();
         return new NamirnicaCollection($namirnice);
     }
 

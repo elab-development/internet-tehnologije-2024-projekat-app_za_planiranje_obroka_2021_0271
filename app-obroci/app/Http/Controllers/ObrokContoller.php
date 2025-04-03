@@ -27,7 +27,7 @@ class ObrokContoller extends Controller
         }
     
 
-        $obroci = $query->paginate($request->get('per_page', 10));
+        $obroci = $query->get();
         return ObrokResource::collection($obroci);
     }
 
@@ -136,5 +136,35 @@ class ObrokContoller extends Controller
         return response()->json(['Obrok je uspesno obrisan.']);
     }
 
+    public function destroyByKorisnikId($korisnik_id)
+{
+    $obroci = Obrok::where('korisnik_id', $korisnik_id)->get();
+
+  
+    if ($obroci->isEmpty()) {
+        return response()->json(['message' => 'Nema obroka za ovog korisnika.'], 404);
+    }
+
+    Obrok::where('korisnik_id', $korisnik_id)->delete();
+
+    return response()->json(['message' => 'Svi obroci za korisnika su uspešno obrisani.']);
+}
+
+
+public function destroyByReceptId($recept_id)
+{
+   
+    $obroci = Obrok::where('recept_id', $recept_id)->get();
+
+ 
+    if ($obroci->isEmpty()) {
+        return response()->json(['message' => 'Nema obroka za ovaj recept.'], 404);
+    }
+
+   
+    Obrok::where('recept_id', $recept_id)->delete();
+
+    return response()->json(['message' => 'Svi obroci sa ovim receptom su uspešno obrisani.']);
+}
 
 }

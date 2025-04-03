@@ -41,9 +41,10 @@ class KorisnikContoller extends Controller
         }
         
         $query->orderBy('ime', 'asc')->orderBy('prezime', 'asc');
-        // Paginacija (podrazumevano 10 po strani, ali može se menjati parametrom per_page)
-        $korisnici = $query->paginate($request->get('per_page', 10));
+        
+        //$korisnici = $query->paginate($request->get('per_page', 10));
 
+        $korisnici = $query->get();
         if(is_null($korisnici)){
             return response()->json('Korisnici nisu pronadjeni', 404 );
         }

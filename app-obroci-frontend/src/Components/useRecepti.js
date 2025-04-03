@@ -19,6 +19,24 @@ const usePreferencije = () => {
 
     const handleDeleteRecept = (id) => {
         const authToken = window.sessionStorage.getItem("auth_token");
+
+        axios.delete(`/api/obroci/recepti/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`,
+            },
+        })
+        .then(() => {
+            setRecepti(prevState => prevState.filter(recept => recept.id !== id));
+            alert("Obroci za recept su uspešno obrisani.");
+        })
+        .catch(error => {
+            console.error("Greška pri brisanju recepta:", error);
+            alert("Došlo je do greške pri brisanju obroka za recept.");
+        });
+
+
+
     
         axios.delete(`/api/recepti/${id}`, {
             headers: {
