@@ -46,6 +46,10 @@ function DodajReceptPage() {
             alert("Opis recepta ne može biti duži od 1.000 karaktera.");
             return;
         }
+        if (selectedNamirnice.length === 0) {
+            alert("Recept mora sadržati bar jednu namirnicu.");
+            return;
+        }
         if (selectedNamirnice.some(n => !/^[0-9]+$/.test(n.kolicina.trim()))) {
             alert("Sva polja 'Količina' moraju biti celi brojevi.");
             return;
